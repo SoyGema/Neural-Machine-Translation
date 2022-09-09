@@ -32,11 +32,22 @@ def tokenizer(model_name):
     return tokenizers
 
 
+
+
+
+
+
+
+
+### Add param to process. Without limitng the size of sequences, the performance
+# will be affected. 
 MAX_TOKENS = 128
 
+
+
 def filter_max_tokens(lan, en):
-  num_tokens = tf.maximum(tf.shape(lan)[1],tf.shape(en)[1])
-  return num_tokens < MAX_TOKENS
+    num_tokens = tf.maximum(tf.shape(lan)[1],tf.shape(en)[1])
+    return num_tokens < MAX_TOKENS
 
 
 def tokenize_pairs(lan, en, model_name):
@@ -50,4 +61,4 @@ def tokenize_pairs(lan, en, model_name):
     en = tokenizers.en.tokenize(en)
     # Convert from ragged to dense, padding with zeros.
     en = en.to_tensor()
-    return pt, en
+    return lan, en
