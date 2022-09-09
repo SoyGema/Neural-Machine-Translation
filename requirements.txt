@@ -15,6 +15,10 @@ python-dotenv>=0.5.1
 # Install the nightly version of TensorFlow to use the improved
 # masking support for `tf.keras.layers.MultiHeadAttention`.
 -y -q tensorflow keras estimator tensorflow-text
--q tensorflow_datasets
+
+##TO DO See possible conflicts of tensorflow test comming from transformer and tokenizers
+
+-q tensorflow_datasets #this is for transformers , this also appears in tokenizers
+-q -U "tensorflow-text==2.8.*" #this is for tokenizer
 -q -U tensorflow-text-nightly==2.11.0.dev20220817
 -U -q tf-nightly==2.11.0.dev20220817
