@@ -69,7 +69,7 @@ Formally it can be defined as a NN that models the conditional probability p(y x
 translating a sentence x1...xn into y1...yn.
 
 # POC 1
-Using transformers for Neural Machine Translation.
+Using [transformers for Neural Machine Translation](https://arxiv.org/pdf/2106.02242.pdf)
 The high level idea behind transformers is to design the attention mechanism: the ability
 to set attention at different parts of a sequence for calculating a sequence representation.
 It presents several difference with respect to past sequential architectures.
