@@ -16,6 +16,7 @@ def load_language_dataset(path):
     args: string path . Right now portuguese 
 
     """
+    
     examples, metadata = tfds.load('ted_hrlr_translate/pt_to_en',
                                with_info=True,
                                as_supervised=True)
