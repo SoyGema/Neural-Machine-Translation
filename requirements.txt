@@ -20,7 +20,7 @@ dvc==2.24.0
 #tensorflow keras estimator tensorflow-text
 ##TO DO See possible conflicts of tensorflow test comming from transformer and tokenizers
 
-#Installed 4.6.0 #this is for transformers , this also appears in tokenizers
+#INSTALLED 4.6.0 #this is for transformers , this also appears in tokenizers
 tensorflow_datasets
 #-q -U "tensorflow-text==2.8.*" #this is for tokenizer
 ##tensorflow-text==2.8.*
