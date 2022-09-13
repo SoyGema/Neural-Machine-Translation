@@ -1,0 +1,4 @@
+[core]
+    remote = dataremotes3
+['remote "dataremotes3"']
+    url = s3://neuralmachinetranslationdata
