@@ -17,7 +17,7 @@ def load_language_dataset(path):
 
     """
 
-    examples, metadata = tfds.load('ted_hrlr_translate/pt_to_en',
+    examples, metadata = tfds.load(path,
                                with_info=True,
                                as_supervised=True)
 
@@ -27,9 +27,9 @@ def load_language_dataset(path):
 
 ## different paths to make different languages. for PIPELINE dvc.yaml 
 # https://www.tensorflow.org/datasets/catalog/ted_hrlr_translate#ted_hrlr_translatept_to_en
-#['az_to_en', 'aztr_to_en', 'be_to_en',
-# 'beru_to_en', 'gl_to_en', 'glpt_to_en',
-# 'pt_to_en', 'ru_to_en', 'tr_to_en']
+#[#'az_to_en', #'aztr_to_en', #'be_to_en',
+# #'beru_to_en', 'gl_to_en', 'glpt_to_en',
+# #'pt_to_en', #'ru_to_en', 'tr_to_en']
 
 
 def load_dataset_test(path):
