@@ -13,36 +13,17 @@ tf.get_logger().setLevel('ERROR')
 pwd = pathlib.Path.cwd()
 
 from data import load_dataset
+from src.data.load_dataset import load_language_dataset
 
 #------------------------------------------------------#
 ## Build Tokenizer
 
-def tokenizer_model_load(model_name):
-    """
-    Process of breaking up a sequence.
-    The beginning of sentences are typically marked
-    by tokens
+modelname = 'ted_hrlr_translate_pt_en_converter'
+train_examples, val_examples = load_language_dataset(modelname)
 
-    Apparently pt example is done and other language might imply going through the 
-    full tutorial https://www.tensorflow.org/text/guide/subwords_tokenizer
-
-
-    Buils subword tokenizers optimized for the dataset and exports them
-    into a Tensorflow saved_model format
-    
-    returns: tensorflow saved model
-
-    """
-    model_name = 'ted_hrlr_translate_pt_en_converter'
-    tf.keras.utils.get_file(
-        f'{model_name}.zip',
-        f'https://storage.googleapis.com/download.tensorflow.org/models/{model_name}.zip',
-        cache_dir='.', cache_subdir='', extract=True
-    )
-
-    tokenizers = tf.saved_model.load(model_name)
-    #encoded = tokenizers.en.tokenize(en_examples)-> Thinking that this is not necessary
-    return tokenizers
+def load_dataset_language():
+    """Load the dataset from local,
+    once dvc pull has been done """
 
 
 ### Add param to process. Without limitng the size of sequences, the performance
@@ -54,7 +35,6 @@ def prepare_token_batches(lan, en):
     Tokenize per batches
 
     """
-    model = tokenizer_model_load('ted_hrlr_translate_pt_en_converter')
     lan = model.lan.tokenize(lan)
     lan = lan[:, :MAX_TOKENS]
     lan = lan.to_tensor()
