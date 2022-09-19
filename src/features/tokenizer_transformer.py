@@ -1,9 +1,9 @@
 
-import pathlib
-
+import os
 import numpy as np
 import matplotlib.pyplot as plt
-
+import pathlib
+from zipfile import ZipFile
 import tensorflow_datasets as tfds
 import tensorflow_text as text
 import tensorflow as tf
@@ -12,22 +12,33 @@ from tensorflow_text.tools.wordpiece_vocab import bert_vocab_from_dataset as ber
 tf.get_logger().setLevel('ERROR')
 pwd = pathlib.Path.cwd()
 
-from data import load_dataset
-from src.data.load_dataset import load_language_dataset
-
+#from src.data.load_dataset import load_language_dataset
 #------------------------------------------------------#
 ## Build Tokenizer
 
-modelname = 'ted_hrlr_translate_pt_en_converter'
-train_examples, val_examples = load_language_dataset(modelname)
+model_name = 'ted_hrlr_translate_az_en_converter.zip'
+#train_examples, val_examples = load_language_dataset(model_name)
 
-def load_dataset_language():
-    """Load the dataset from local,
+def load_dataset_tokenized():
+    """Load the model from local,
     once dvc pull has been done """
+    fullPath = os.path.abspath("/Users/gema/Documents/Neural-Machine-Translation/datasets/" + model_name)  # or similar, depending on your scenario
+    print('the path from it reads is'+ fullPath)
+   
+    model_for_processing = tf.keras.utils.get_file(model_name, 'file://'+fullPath, untar=True)
+    
+    with ZipFile(model_for_processing, 'r') as zipObj:
+        zipObj.extractall('/Users/gema/.keras/datasets/')
 
+    print('model loaded')
+    folder_name = 'ted_hrlr_translate_az_en_converter'
+    tokenizer = tf.saved_model.load('/Users/gema/.keras/datasets/' + folder_name)
+    print(tokenizer)
+    return tokenizer
 
 ### Add param to process. Without limitng the size of sequences, the performance
 # will be affected. 
+tokenizer = load_dataset_tokenized()
 MAX_TOKENS = 128
 
 def prepare_token_batches(lan, en):
@@ -35,11 +46,11 @@ def prepare_token_batches(lan, en):
     Tokenize per batches
 
     """
-    lan = model.lan.tokenize(lan)
+    lan = tokenizer.lan.tokenize(lan)
     lan = lan[:, :MAX_TOKENS]
     lan = lan.to_tensor()
 
-    en = model.en.tokenize(en)
+    en = tokenizer.en.tokenize(en)
     en = en[:, :(MAX_TOKENS+1)]
     en_inputs = en[:, :-1].to_tensor()  # Drop the [END] tokens
     en_labels = en[:, 1:].to_tensor()   # Drop the [START] tokens
@@ -58,9 +69,9 @@ def make_batches(ds):
       .prefetch(buffer_size=tf.data.AUTOTUNE))
 
 
-    # Create training and validation set batches.
-train_batches = make_batches(train_examples)
-val_batches = make_batches(val_examples)
+    # Create training and validation set batches. Commented for now to ensure loading. Later uncomment and trackled thanks
+#train_batches = make_batches(train_examples)
+#val_batches = make_batches(val_examples)
 
 #------------------------------------------------------#
 
@@ -83,3 +94,6 @@ def tokenize_pairs(lan, en, model_name):
     # Convert from ragged to dense, padding with zeros.
     en = en.to_tensor()
     return lan, en
+
+if __name__ == '__main__':
+    load_dataset_tokenized()
