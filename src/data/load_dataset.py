@@ -20,12 +20,12 @@ def load_language_dataset(path):
     examples, metadata = tfds.load(path,
                                with_info=True,
                                as_supervised=True)
-    print('are you doing this?')
+    print('Loading Dataset')
     train_examples, val_examples = examples['train'], examples['validation']
     return train_examples, val_examples
 
 
-def load_language_dataset(path):
+def load_language_dataset2(path):
     """
     Loads the language dataset, depending on path 
     it will be based on one language or the other
@@ -83,4 +83,4 @@ def load_dataset_test(path):
     for en in en_examples.numpy():
         print(en.decode('utf-8'))
 
-load_language_dataset2('/Users/gema/Documents/Neural-Machine-Translation/datasets/~/tensorflow_datasets/ted_hrlr_translate/ru_to_en/.config:1.0.0')
+load_language_dataset('ted_hrlr_translate/az_to_en')

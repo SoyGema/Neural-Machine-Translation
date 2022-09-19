@@ -1,7 +1,8 @@
 
 import os
+from pyexpat import model
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import pathlib
 from zipfile import ZipFile
 import tensorflow_datasets as tfds
@@ -12,20 +13,22 @@ from tensorflow_text.tools.wordpiece_vocab import bert_vocab_from_dataset as ber
 tf.get_logger().setLevel('ERROR')
 pwd = pathlib.Path.cwd()
 
-#from src.data.load_dataset import load_language_dataset
+from src.data.load_dataset import load_language_dataset
 #------------------------------------------------------#
 ## Build Tokenizer
 
-model_name = 'ted_hrlr_translate_az_en_converter.zip'
-#train_examples, val_examples = load_language_dataset(model_name)
+model_name_zip = 'ted_hrlr_translate_az_en_converter.zip'
+model_name = 'ted_hrlr_translate/az_to_en'
+train_examples, val_examples = load_language_dataset(model_name)
 
 def load_dataset_tokenized():
     """Load the model from local,
     once dvc pull has been done """
-    fullPath = os.path.abspath("/Users/gema/Documents/Neural-Machine-Translation/datasets/" + model_name)  # or similar, depending on your scenario
+
+    fullPath = os.path.abspath("/Users/gema/Documents/Neural-Machine-Translation/datasets/" + model_name_zip) 
     print('the path from it reads is'+ fullPath)
    
-    model_for_processing = tf.keras.utils.get_file(model_name, 'file://'+fullPath, untar=True)
+    model_for_processing = tf.keras.utils.get_file(model_name_zip, 'file://'+ fullPath, untar=True)
     
     with ZipFile(model_for_processing, 'r') as zipObj:
         zipObj.extractall('/Users/gema/.keras/datasets/')
@@ -41,9 +44,10 @@ def load_dataset_tokenized():
 tokenizer = load_dataset_tokenized()
 MAX_TOKENS = 128
 
+
 def prepare_token_batches(lan, en):
     """
-    Tokenize per batches
+    Tokenize per batches. Try to remove initial arguments
 
     """
     lan = tokenizer.lan.tokenize(lan)
@@ -69,17 +73,15 @@ def make_batches(ds):
       .prefetch(buffer_size=tf.data.AUTOTUNE))
 
 
-    # Create training and validation set batches. Commented for now to ensure loading. Later uncomment and trackled thanks
-#train_batches = make_batches(train_examples)
-#val_batches = make_batches(val_examples)
+    # Create training and validation set batches. Commented for now to ensure loading.
+train_batches = make_batches(train_examples)
+val_batches = make_batches(val_examples)
 
 #------------------------------------------------------#
 
 def filter_max_tokens(lan, en):
     num_tokens = tf.maximum(tf.shape(lan)[1],tf.shape(en)[1])
     return num_tokens < MAX_TOKENS
-
-    
 
 
 def tokenize_pairs(lan, en, model_name):
@@ -97,3 +99,7 @@ def tokenize_pairs(lan, en, model_name):
 
 if __name__ == '__main__':
     load_dataset_tokenized()
+
+
+    filter_max_tokens(lan, en)
+    tokenize_pairs(lan, en, model_name)

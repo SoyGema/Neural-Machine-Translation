@@ -20,7 +20,7 @@ from src.data.load_dataset import load_language_dataset
 tf.get_logger().setLevel('ERROR')
 pwd = pathlib.Path.cwd()
 
-train_examples, val_examples = load_language_dataset('ted_hrlr_translate/tr_to_en') 
+train_examples, val_examples = load_language_dataset('ted_hrlr_translate/ru_to_en') 
 
 
 def map_examples(train_examples):
@@ -180,7 +180,7 @@ if __name__ == '__main__':
     tokenizers = tf.Module()
     tokenizers.pt = CustomTokenizer(reserved_tokens, 'vocabularylan.txt')
     tokenizers.en = CustomTokenizer(reserved_tokens, 'vocabularyen.txt')
-    model_name = 'ted_hrlr_translate_tr_to_en_converter'
+    model_name = 'ted_hrlr_translate_ru_to_en_converter'
     tf.saved_model.save(tokenizers, model_name)
     reloaded_tokenizers = tf.saved_model.load(model_name)
     reloaded_tokenizers.en.get_vocab_size().numpy()

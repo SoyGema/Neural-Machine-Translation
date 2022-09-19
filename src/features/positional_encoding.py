@@ -1,7 +1,10 @@
 import numpy as np
 import tensorflow as tf
+from src.features.tokenizer_transformer import load_dataset_tokenized
 
 
+
+tokenizers = load_dataset_tokenized()
 
 def positional_encoding(length, depth):
   depth = depth/2
