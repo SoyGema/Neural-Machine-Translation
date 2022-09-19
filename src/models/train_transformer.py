@@ -1,9 +1,15 @@
 
 import tensorflow as tf
-from features import positional_encoding
-from models import Decoder
-from models import Encoder
-from features import tokenizers
+from src.features.positional_encoding import positional_encoding
+from src.models.decoder import Decoder
+from src.models.encoder import Encoder
+##from src.features import tokenizers --> I think this is the model ?
+
+from src.data.load_dataset import load_language_dataset
+model_name = 'ted_hrlr_translate/az_to_en'
+tokenizers = load_language_dataset(model_name)
+
+
 
 ##Define transformer and try it out 
 
@@ -77,8 +83,8 @@ transformer = Transformer(
     d_model=d_model,
     num_attention_heads=num_attention_heads,
     dff=dff,
-    input_vocab_size=tokenizers.pt.get_vocab_size().numpy(),
-    target_vocab_size=tokenizers.en.get_vocab_size().numpy(),
+    input_vocab_size=8000,
+    target_vocab_size=8000,
     dropout_rate=dropout_rate)
 
 
@@ -119,9 +125,9 @@ optimizer = tf.keras.optimizers.Adam(learning_rate, beta_1=0.9, beta_2=0.98,
 
 temp_learning_rate_schedule = CustomSchedule(d_model)
 
-plt.plot(temp_learning_rate_schedule(tf.range(40000, dtype=tf.float32)))
-plt.ylabel('Learning Rate')
-plt.xlabel('Train Step')
+#plt.plot(temp_learning_rate_schedule(tf.range(40000, dtype=tf.float32)))
+#plt.ylabel('Learning Rate')
+#plt.xlabel('Train Step')
 
 
 loss_object = tf.keras.losses.SparseCategoricalCrossentropy(

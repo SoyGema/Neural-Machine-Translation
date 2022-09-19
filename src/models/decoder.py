@@ -1,10 +1,11 @@
 
 import tensorflow as tf
-from features import positional_encoding
-from encoder import point_wise_feed_forward_network
+from src.features.positional_encoding import positional_encoding
+from src.models.encoder import point_wise_feed_forward_network
 
 
 #define the DECODER layer
+MAX_TOKENS = 128
 
 class DecoderLayer(tf.keras.layers.Layer):
   def __init__(self,

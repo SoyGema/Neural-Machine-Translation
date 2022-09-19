@@ -1,6 +1,6 @@
 
 import tensorflow as tf
-from features import positional_encoding
+from src.features.positional_encoding import positional_encoding
 
 def point_wise_feed_forward_network(
   d_model, # Input/output dimensionality.
@@ -12,7 +12,7 @@ def point_wise_feed_forward_network(
       tf.keras.layers.Dense(d_model)  # Shape `(batch_size, seq_len, d_model)`.
   ])
 
-
+MAX_TOKENS=128
 # Define the ENCODER layer 
 
 class EncoderLayer(tf.keras.layers.Layer):

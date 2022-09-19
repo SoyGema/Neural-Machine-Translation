@@ -18,6 +18,7 @@ from src.data.load_dataset import load_language_dataset
 ## Build Tokenizer
 
 model_name_zip = 'ted_hrlr_translate_az_en_converter.zip'
+
 model_name = 'ted_hrlr_translate/az_to_en'
 train_examples, val_examples = load_language_dataset(model_name)
 
@@ -45,21 +46,21 @@ tokenizer = load_dataset_tokenized()
 MAX_TOKENS = 128
 
 
-def prepare_token_batches(lan, en):
+def prepare_token_batches(pt, en):
     """
     Tokenize per batches. Try to remove initial arguments
 
     """
-    lan = tokenizer.lan.tokenize(lan)
-    lan = lan[:, :MAX_TOKENS]
-    lan = lan.to_tensor()
+    pt = tokenizer.pt.tokenize(pt)
+    pt = pt[:, :MAX_TOKENS]
+    pt = pt.to_tensor()
 
     en = tokenizer.en.tokenize(en)
     en = en[:, :(MAX_TOKENS+1)]
     en_inputs = en[:, :-1].to_tensor()  # Drop the [END] tokens
     en_labels = en[:, 1:].to_tensor()   # Drop the [START] tokens
 
-    return (lan, en_inputs), en_labels
+    return (pt, en_inputs), en_labels
 
 BUFFER_SIZE = 20000
 BATCH_SIZE = 64
@@ -99,7 +100,6 @@ def tokenize_pairs(lan, en, model_name):
 
 if __name__ == '__main__':
     load_dataset_tokenized()
-
-
+    prepare_token_batches(lan, en)
     filter_max_tokens(lan, en)
     tokenize_pairs(lan, en, model_name)

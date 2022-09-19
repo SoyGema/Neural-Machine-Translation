@@ -45,7 +45,8 @@ class PositionalEmbedding(tf.keras.layers.Layer):
 embed_pt = PositionalEmbedding(vocab_size=tokenizers.pt.get_vocab_size(), d_model=512)
 embed_en = PositionalEmbedding(vocab_size=tokenizers.en.get_vocab_size(), d_model=512)
 
-pt_emb = embed_pt(lan)
-en_emb = embed_en(en)
+###See lan and en first instantiations
+#pt_emb = embed_pt(lan)
+#en_emb = embed_en(en)
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
