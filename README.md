@@ -101,3 +101,11 @@ the paper based on two simple and effective classes of attentional mechanism:
 * local: looks at one sentence. Conceived as an iteration from the existing previous
 research literature. The difference is that it is differenciable almost everywhere, computationally
 less expensive. This is based moslty in LSTM architectures.
+
+
+@inproceedings{Ye2018WordEmbeddings,
+  author  = {Ye, Qi and Devendra, Sachan and Matthieu, Felix and Sarguna, Padmanabhan and Graham, Neubig},
+  title   = {When and Why are pre-trained word embeddings useful for Neural Machine Translation},
+  booktitle = {HLT-NAACL},
+  year    = {2018},
+  }

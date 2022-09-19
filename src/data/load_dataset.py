@@ -25,6 +25,40 @@ def load_language_dataset(path):
     return train_examples, val_examples
 
 
+def load_language_dataset(path):
+    """
+    Loads the language dataset, depending on path 
+    it will be based on one language or the other
+    
+    args: string path . Right now portuguese 
+
+    """
+
+    examples, metadata = tfds.load(path,
+                               with_info=True,
+                               as_supervised=True)
+    print('are you doing this?')
+    train_examples, val_examples = examples['train'], examples['validation']
+    return train_examples, val_examples
+
+def load_language_dataset2(path2):
+    """
+    Loads the language dataset, depending on path 
+    it will be based on one language or the other
+    
+    args: string path . Right now portuguese 
+
+    """
+    #path2 = '/Users/gema/Documents/Neural-Machine-Translation/datasets/ru_to_en'
+    examples, metadata = tfds.load(path2,
+                               with_info=True,
+                               as_supervised=True)
+    print('are you doing this?')
+    train_examples, val_examples = examples['train'], examples['validation']
+    return train_examples, val_examples
+
+
+
 ## different paths to make different languages. for PIPELINE dvc.yaml 
 # https://www.tensorflow.org/datasets/catalog/ted_hrlr_translate#ted_hrlr_translatept_to_en
 #[#'az_to_en', #'aztr_to_en', #'be_to_en',
@@ -49,4 +83,4 @@ def load_dataset_test(path):
     for en in en_examples.numpy():
         print(en.decode('utf-8'))
 
-load_dataset_test('ted_hrlr_translate/ru_to_en')
+load_language_dataset2('/Users/gema/Documents/Neural-Machine-Translation/datasets/~/tensorflow_datasets/ted_hrlr_translate/ru_to_en/.config:1.0.0')
