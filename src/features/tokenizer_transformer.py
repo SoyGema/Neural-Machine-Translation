@@ -77,7 +77,7 @@ def make_batches(ds):
     # Create training and validation set batches. Commented for now to ensure loading.
 train_batches = make_batches(train_examples)
 val_batches = make_batches(val_examples)
-
+#print(train_batches)
 #------------------------------------------------------#
 
 def filter_max_tokens(lan, en):
@@ -100,6 +100,7 @@ def tokenize_pairs(lan, en, model_name):
 
 if __name__ == '__main__':
     load_dataset_tokenized()
-    prepare_token_batches(lan, en)
-    filter_max_tokens(lan, en)
-    tokenize_pairs(lan, en, model_name)
+    train_batches = make_batches(train_examples)
+    val_batches = make_batches(val_examples)
+    print('train' )
+    print(train_batches)
