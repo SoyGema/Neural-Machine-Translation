@@ -1,10 +1,13 @@
 import numpy as np
 import tensorflow as tf
 from src.features.tokenizer_transformer import load_dataset_tokenized
-
+from src.data.load_dataset import load_language_dataset
+from src.features.tokenizer_transformer import make_batches
 
 
 tokenizers = load_dataset_tokenized()
+
+model_name = 'ted_hrlr_translate/az_to_en'
 
 def positional_encoding(length, depth):
   depth = depth/2
@@ -40,13 +43,22 @@ class PositionalEmbedding(tf.keras.layers.Layer):
     x = x + self.pos_encoding[tf.newaxis, :length, :]
     return x
 
+train_examples, val_examples = load_language_dataset(model_name)
+train_batches = make_batches(train_examples)
+val_batches = make_batches(val_examples)
+
+for (pt, en), en_labels in train_batches.take(1):
+  print(pt.shape)
+  print(en.shape)
 
 
 embed_pt = PositionalEmbedding(vocab_size=tokenizers.pt.get_vocab_size(), d_model=512)
 embed_en = PositionalEmbedding(vocab_size=tokenizers.en.get_vocab_size(), d_model=512)
 
 ###See lan and en first instantiations
-#pt_emb = embed_pt(lan)
-#en_emb = embed_en(en)
+pt_emb = embed_pt(pt)
+en_emb = embed_en(en)
+
+### Error due to vocab size  https://github.com/tensorflow/models/pull/4974
 
 #if __name__ == '__main__':
