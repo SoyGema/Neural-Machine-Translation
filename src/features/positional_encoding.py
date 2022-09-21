@@ -59,6 +59,6 @@ embed_en = PositionalEmbedding(vocab_size=tokenizers.en.get_vocab_size(), d_mode
 pt_emb = embed_pt(pt)
 en_emb = embed_en(en)
 
-### Error due to vocab size  https://github.com/tensorflow/models/pull/4974
+### Error due to vocab size ?? https://github.com/tensorflow/models/pull/4974
 
 #if __name__ == '__main__':

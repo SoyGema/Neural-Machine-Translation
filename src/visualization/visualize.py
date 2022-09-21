@@ -1,7 +1,9 @@
 ### Visualize the token distribution per example in the dataset
 import matplotlib.pyplot as plt
 import numpy as np
+import tensorflow as tf
 
+##### TOKENIZATION . unclear if this chall be appear finally on the experiments table. 
 
 lengths = []
 
@@ -22,3 +24,16 @@ plt.ylim(plt.ylim())
 max_length = max(all_lengths)
 plt.plot([max_length, max_length], plt.ylim())
 plt.title(f'Maximum tokens per example: {max_length}');
+
+
+sentence = 'este é um problema que temos que resolver.'
+ground_truth = 'this is a problem we have to solve .'
+
+translated_text, translated_tokens, attention_weights = translator(
+    tf.constant(sentence))
+print_translation(sentence, translated_text, ground_truth)
+
+
+
+##### ATTENTION HEADS. 
+

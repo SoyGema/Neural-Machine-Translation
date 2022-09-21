@@ -3,8 +3,11 @@ import tensorflow as tf
 from src.features.positional_encoding import positional_encoding
 from src.models.decoder import Decoder
 from src.models.encoder import Encoder
+import time
 ##from src.features import tokenizers --> I think this is the model ?
 
+
+from src.visualization.metrics import loss_function, accuracy_function
 from src.data.load_dataset import load_language_dataset
 model_name = 'ted_hrlr_translate/az_to_en'
 tokenizers = load_language_dataset(model_name)
@@ -134,28 +137,6 @@ loss_object = tf.keras.losses.SparseCategoricalCrossentropy(
     from_logits=True, reduction='none')
 
 
-def loss_function(real, pred):
-  mask = tf.math.logical_not(tf.math.equal(real, 0))
-  loss_ = loss_object(real, pred)
-
-  mask = tf.cast(mask, dtype=loss_.dtype)
-  loss_ *= mask
-
-  return tf.reduce_sum(loss_)/tf.reduce_sum(mask)
-
-
-def accuracy_function(real, pred):
-  accuracies = tf.equal(real, tf.argmax(pred, axis=2))
-
-  mask = tf.math.logical_not(tf.math.equal(real, 0))
-  accuracies = tf.math.logical_and(mask, accuracies)
-
-  accuracies = tf.cast(accuracies, dtype=tf.float32)
-  mask = tf.cast(mask, dtype=tf.float32)
-  return tf.reduce_sum(accuracies)/tf.reduce_sum(mask)
-
-
-
 train_loss = tf.keras.metrics.Mean(name='train_loss')
 train_accuracy = tf.keras.metrics.Mean(name='train_accuracy')
 
@@ -199,3 +180,27 @@ def train_step(inp, tar):
 
   train_loss(loss)
   train_accuracy(accuracy_function(tar_real, predictions))
+
+
+EPOCHS = 20
+
+for epoch in range(EPOCHS):
+  start = time.time()
+
+  train_loss.reset_states()
+  train_accuracy.reset_states()
+
+  # inp -> portuguese, tar -> english
+  for (batch, (inp, tar)) in enumerate(train_batches):
+    train_step(inp, tar)
+
+    if batch % 50 == 0:
+      print(f'Epoch {epoch + 1} Batch {batch} Loss {train_loss.result():.4f} Accuracy {train_accuracy.result():.4f}')
+
+  if (epoch + 1) % 5 == 0:
+    ckpt_save_path = ckpt_manager.save()
+    print(f'Saving checkpoint for epoch {epoch+1} at {ckpt_save_path}')
+
+  print(f'Epoch {epoch + 1} Loss {train_loss.result():.4f} Accuracy {train_accuracy.result():.4f}')
+
+  print(f'Time taken for 1 epoch: {time.time() - start:.2f} secs\n')

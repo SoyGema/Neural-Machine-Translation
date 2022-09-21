@@ -21,12 +21,13 @@ model_name_zip = 'ted_hrlr_translate_az_en_converter.zip'
 
 model_name = 'ted_hrlr_translate/az_to_en'
 train_examples, val_examples = load_language_dataset(model_name)
+PYTHONPATH='/Users/gema/Documents/Neural-Machine-Translation'
 
 def load_dataset_tokenized():
     """Load the model from local,
     once dvc pull has been done """
 
-    fullPath = os.path.abspath("/Users/gema/Documents/Neural-Machine-Translation/datasets/" + model_name_zip) 
+    fullPath = os.path.abspath(PYTHONPATH + "/datasets/" + model_name_zip) 
     print('the path from it reads is'+ fullPath)
    
     model_for_processing = tf.keras.utils.get_file(model_name_zip, 'file://'+ fullPath, untar=True)
