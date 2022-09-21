@@ -204,3 +204,27 @@ for epoch in range(EPOCHS):
   print(f'Epoch {epoch + 1} Loss {train_loss.result():.4f} Accuracy {train_accuracy.result():.4f}')
 
   print(f'Time taken for 1 epoch: {time.time() - start:.2f} secs\n')
+
+
+
+
+##### EXPORT MODEL
+
+class ExportTranslator(tf.Module):
+  def __init__(self, translator):
+    self.translator = translator
+
+  @tf.function(input_signature=[tf.TensorSpec(shape=[], dtype=tf.string)])
+  def __call__(self, sentence):
+    (result,
+     tokens,
+     attention_weights) = self.translator(sentence, max_length=MAX_TOKENS)
+
+    return result
+
+
+translator = ExportTranslator(translator)
+translator('este é o primeiro livro que eu fiz.').numpy()
+tf.saved_model.save(translator, export_dir='translator')
+reloaded = tf.saved_model.load('translator')
+reloaded('este é o primeiro livro que eu fiz.').numpy()

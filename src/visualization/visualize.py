@@ -37,3 +37,68 @@ print_translation(sentence, translated_text, ground_truth)
 
 ##### ATTENTION HEADS. 
 
+def plot_attention_head(in_tokens, translated_tokens, attention):
+  # The model didn't generate `<START>` in the output. Skip it.
+  translated_tokens = translated_tokens[1:]
+
+  ax = plt.gca()
+  ax.matshow(attention)
+  ax.set_xticks(range(len(in_tokens)))
+  ax.set_yticks(range(len(translated_tokens)))
+
+  labels = [label.decode('utf-8') for label in in_tokens.numpy()]
+  ax.set_xticklabels(
+      labels, rotation=90)
+
+  labels = [label.decode('utf-8') for label in translated_tokens.numpy()]
+  ax.set_yticklabels(labels)
+
+
+
+head = 0
+# Shape: `(batch=1, num_attention_heads, seq_len_q, seq_len_k)`.
+attention_heads = tf.squeeze(
+  attention_weights['decoder_layer4_block2'], 0)
+attention = attention_heads[head]
+attention.shape
+
+
+### Change to function
+in_tokens = tf.convert_to_tensor([sentence])
+in_tokens = tokenizers.pt.tokenize(in_tokens).to_tensor()
+in_tokens = tokenizers.pt.lookup(in_tokens)[0]
+in_tokens
+
+
+def plot_attention_weights(sentence, translated_tokens, attention_heads):
+  in_tokens = tf.convert_to_tensor([sentence])
+  in_tokens = tokenizers.pt.tokenize(in_tokens).to_tensor()
+  in_tokens = tokenizers.pt.lookup(in_tokens)[0]
+
+  fig = plt.figure(figsize=(16, 8))
+
+  for h, head in enumerate(attention_heads):
+    ax = fig.add_subplot(2, 4, h+1)
+
+    plot_attention_head(in_tokens, translated_tokens, head)
+
+    ax.set_xlabel(f'Head {h+1}')
+
+  plt.tight_layout()
+  plt.show()
+
+
+plot_attention_weights(sentence,
+                       translated_tokens,
+                       attention_weights['decoder_layer4_block2'][0])
+
+
+sentence = 'Eu li sobre triceratops na enciclopédia.'
+ground_truth = 'I read about triceratops in the encyclopedia.'
+
+translated_text, translated_tokens, attention_weights = translator(
+    tf.constant(sentence))
+print_translation(sentence, translated_text, ground_truth)
+
+plot_attention_weights(sentence, translated_tokens,
+                       attention_weights['decoder_layer4_block2'][0])
