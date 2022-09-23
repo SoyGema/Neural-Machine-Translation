@@ -1,6 +1,7 @@
 
 import tensorflow as tf
 from src.features.positional_encoding import positional_encoding
+from src.features.positional_encoding import PositionalEmbedding
 
 def point_wise_feed_forward_network(
   d_model, # Input/output dimensionality.
@@ -72,7 +73,7 @@ class EncoderLayer(tf.keras.layers.Layer):
     return out2
 
 
-class Encoder(tf.keras.layers.Layer):
+class Encodercreoquemalcopiado(tf.keras.layers.Layer):
   def __init__(self,
                *,
                num_layers,
@@ -107,15 +108,66 @@ class Encoder(tf.keras.layers.Layer):
   def compute_mask(self, x, previous_mask=None):
     return self.embedding.compute_mask(x, previous_mask)
 
+  #def call(self, x, training):
+
+    #seq_len = tf.shape(x)[1]
+    #print(x)
+    # Sum up embeddings and positional encoding.
+    #mask = self.compute_mask(x)
+    #x = self.embedding(x)  # Shape `(batch_size, input_seq_len, d_model)`.
+    #x *= tf.math.sqrt(tf.cast(self.d_model, tf.float32))
+    #print(x)
+    ###x += self.pos_encoding[tf.newaxis, :MAX_TOKENS, :]
+    # Add dropout.
+    #x = self.dropout(x, training=training)
+
+    # N encoder layers.
+    #for i in range(self.num_layers):
+     # x = self.enc_layers[i](x, training, mask)
+
+    #return x  # Shape `(batch_size, input_seq_len, d_model)`.
+
+
+class Encoder(tf.keras.layers.Layer):
+  def __init__(self,
+               *,
+               num_layers,
+               d_model, # Input/output dimensionality.
+               num_attention_heads,
+               dff, # Inner-layer dimensionality.
+               input_vocab_size, # Input (Portuguese) vocabulary size.
+               dropout_rate=0.1
+               ):
+    super().__init__()
+
+    self.d_model = d_model
+    self.num_layers = num_layers
+
+    # Embeddings + Positional encoding
+    self.pos_embedding = PositionalEmbedding(input_vocab_size, d_model)
+
+    # Encoder layers.
+    self.enc_layers = [
+        EncoderLayer(
+          d_model=d_model,
+          num_attention_heads=num_attention_heads,
+          dff=dff,
+          dropout_rate=dropout_rate)
+        for _ in range(num_layers)]
+    # Dropout.
+    self.dropout = tf.keras.layers.Dropout(dropout_rate)
+
+  # Masking.
+  def compute_mask(self, x, previous_mask=None):
+    return self.pos_embedding.compute_mask(x, previous_mask)
+
   def call(self, x, training):
 
     seq_len = tf.shape(x)[1]
 
     # Sum up embeddings and positional encoding.
     mask = self.compute_mask(x)
-    x = self.embedding(x)  # Shape `(batch_size, input_seq_len, d_model)`.
-    x *= tf.math.sqrt(tf.cast(self.d_model, tf.float32))
-    x += self.pos_encoding[:, :seq_len, :]
+    x = self.pos_embedding(x)  # Shape `(batch_size, input_seq_len, d_model)`.
     # Add dropout.
     x = self.dropout(x, training=training)
 
@@ -125,5 +177,4 @@ class Encoder(tf.keras.layers.Layer):
 
     return x  # Shape `(batch_size, input_seq_len, d_model)`.
 
-
-
+print('encoder done')

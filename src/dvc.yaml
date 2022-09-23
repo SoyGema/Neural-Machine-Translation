@@ -1,0 +1,26 @@
+
+
+
+stages:
+  load: #Stage name
+    cmd: python src/data/load_dataset.py data/ #The command that is going to be executed
+    params:
+    - dataset_name
+    outs:
+    - dataset
+
+  tokenizer_transformer:
+    cmd: python src/features/tokenizer_language.py
+    deps: #Dependencies
+    - src/data/load_dataset.py	
+    outs:
+    - dataset
+  postional_encoding:
+    cmd: python src/features/positional_encoder.py
+    deps:
+    - src/data/load_dataset.py
+
+  train_transformer:
+
+
+  predict_transformer:

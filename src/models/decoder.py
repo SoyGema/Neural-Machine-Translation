@@ -2,7 +2,7 @@
 import tensorflow as tf
 from src.features.positional_encoding import positional_encoding
 from src.models.encoder import point_wise_feed_forward_network
-
+from src.features.positional_encoding import PositionalEmbedding
 
 #define the DECODER layer
 MAX_TOKENS = 128
@@ -57,7 +57,7 @@ class DecoderLayer(tf.keras.layers.Layer):
         value=x,
         key=x,
         attention_mask=self_attention_mask,  # A boolean mask that prevents attention to certain positions.
-        use_causal_mask=True,  # A boolean to indicate whether to apply a causal mask to prevent tokens from attending to future tokens.
+        #use_causal_mask=False,  # A boolean to indicate whether to apply a causal mask to prevent tokens from attending to future tokens.
         return_attention_scores=True,  # Shape `(batch_size, target_seq_len, d_model)`.
         training=training  # A boolean indicating whether the layer should behave in training mode.
         )
@@ -104,17 +104,12 @@ class Decoder(tf.keras.layers.Layer):
                target_vocab_size,
                dropout_rate=0.1
                ):
-    super(Decoder, self).__init__()
+    super().__init__()
 
     self.d_model = d_model
     self.num_layers = num_layers
 
-    self.embedding = tf.keras.layers.Embedding(
-      target_vocab_size,
-      d_model,
-      mask_zero=True
-      )
-    self.pos_encoding = positional_encoding(MAX_TOKENS, d_model)
+    self.pos_embedding = PositionalEmbedding(target_vocab_size, d_model)
 
     self.dec_layers = [
         DecoderLayer(
@@ -123,19 +118,14 @@ class Decoder(tf.keras.layers.Layer):
           dff=dff,
           dropout_rate=dropout_rate)
         for _ in range(num_layers)
-        ]
+    ]
     self.dropout = tf.keras.layers.Dropout(dropout_rate)
 
   def call(self, x, enc_output, enc_mask, training):
-
-    seq_len = tf.shape(x)[1]
     attention_weights = {}
 
-    # Sum up embeddings and positional encoding.
-    mask = self.embedding.compute_mask(x)
-    x = self.embedding(x)  # Shape: `(batch_size, target_seq_len, d_model)`.
-    x *= tf.math.sqrt(tf.cast(self.d_model, tf.float32))
-    x += self.pos_encoding[:, :seq_len, :]
+    mask = self.pos_embedding.compute_mask(x)
+    x = self.pos_embedding(x)  # Shape: `(batch_size, target_seq_len, d_model)`.
 
     x = self.dropout(x, training=training)
 

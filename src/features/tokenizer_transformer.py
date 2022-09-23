@@ -17,9 +17,9 @@ from src.data.load_dataset import load_language_dataset
 #------------------------------------------------------#
 ## Build Tokenizer
 
-model_name_zip = 'ted_hrlr_translate_az_en_converter.zip'
+model_name_zip = 'ted_hrlr_translate_pt_en_converter.zip'
 
-model_name = 'ted_hrlr_translate/az_to_en'
+model_name = 'ted_hrlr_translate/pt_to_en'
 train_examples, val_examples = load_language_dataset(model_name)
 PYTHONPATH='/Users/gema/Documents/Neural-Machine-Translation'
 
@@ -36,7 +36,7 @@ def load_dataset_tokenized():
         zipObj.extractall('/Users/gema/.keras/datasets/')
 
     print('model loaded')
-    folder_name = 'ted_hrlr_translate_az_en_converter'
+    folder_name = 'ted_hrlr_translate_pt_en_converter'
     tokenizer = tf.saved_model.load('/Users/gema/.keras/datasets/' + folder_name)
     print(tokenizer)
     return tokenizer
@@ -45,7 +45,6 @@ def load_dataset_tokenized():
 # will be affected. 
 tokenizer = load_dataset_tokenized()
 MAX_TOKENS = 128
-
 
 def prepare_token_batches(pt, en):
     """

@@ -5,14 +5,15 @@ from src.models.decoder import Decoder
 from src.models.encoder import Encoder
 import time
 ##from src.features import tokenizers --> I think this is the model ?
-
+from src.features.tokenizer_transformer import make_batches
 
 from src.visualization.metrics import loss_function, accuracy_function
 from src.data.load_dataset import load_language_dataset
-model_name = 'ted_hrlr_translate/az_to_en'
-tokenizers = load_language_dataset(model_name)
+model_name = 'ted_hrlr_translate/pt_to_en'
+train_examples, val_examples = load_language_dataset(model_name)
 
-
+input_vocab_size= 7765
+target_vocab_size = 7010
 
 ##Define transformer and try it out 
 
@@ -183,6 +184,11 @@ def train_step(inp, tar):
 
 
 EPOCHS = 20
+##!!!train_batches=
+
+train_batches = make_batches(train_examples)
+val_batches = make_batches(val_examples)
+
 
 for epoch in range(EPOCHS):
   start = time.time()
