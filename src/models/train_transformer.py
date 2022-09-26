@@ -1,4 +1,5 @@
 
+from turtle import shape
 import tensorflow as tf
 from src.features.positional_encoding import positional_encoding
 from src.models.decoder import Decoder
@@ -188,7 +189,6 @@ EPOCHS = 20
 
 train_batches = make_batches(train_examples)
 val_batches = make_batches(val_examples)
-
 
 for epoch in range(EPOCHS):
   start = time.time()

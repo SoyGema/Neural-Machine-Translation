@@ -3,6 +3,7 @@ import tensorflow as tf
 from src.features.positional_encoding import positional_encoding
 from src.models.encoder import point_wise_feed_forward_network
 from src.features.positional_encoding import PositionalEmbedding
+from src.models.encoder import EncoderLayer
 
 #define the DECODER layer
 MAX_TOKENS = 128
@@ -15,9 +16,10 @@ class DecoderLayer(tf.keras.layers.Layer):
                dff, # Inner-layer dimensionality.
                dropout_rate=0.1
                ):
-    super(DecoderLayer, self).__init__()
+    super().__init__()
 
     # Masked multi-head self-attention.
+    
     self.mha_masked = tf.keras.layers.MultiHeadAttention(
         num_heads=num_attention_heads,
         key_dim=d_model, # Size of each attention head for query Q and key K.
@@ -57,9 +59,9 @@ class DecoderLayer(tf.keras.layers.Layer):
         value=x,
         key=x,
         attention_mask=self_attention_mask,  # A boolean mask that prevents attention to certain positions.
-        #use_causal_mask=False,  # A boolean to indicate whether to apply a causal mask to prevent tokens from attending to future tokens.
+        use_causal_mask=True,  # A boolean to indicate whether to apply a causal mask to prevent tokens from attending to future tokens.
         return_attention_scores=True,  # Shape `(batch_size, target_seq_len, d_model)`.
-        training=training  # A boolean indicating whether the layer should behave in training mode.
+        training=training,  # A boolean indicating whether the layer should behave in training mode.
         )
 
     # Masked multi-head self-attention output after layer normalization and a residual/skip connection.
@@ -138,3 +140,25 @@ class Decoder(tf.keras.layers.Layer):
     # The shape of x is `(batch_size, target_seq_len, d_model)`.
     return x, attention_weights
 
+
+##TEST
+sample_encoder_layer = EncoderLayer(d_model=512, num_attention_heads=8, dff=2048)
+
+sample_encoder_layer_output = sample_encoder_layer(
+    tf.random.uniform((2, 3, 512)), training=False, mask=None)
+
+# Print the shape.
+print('encoder test output', sample_encoder_layer_output.shape)
+
+
+sample_decoder_layer = DecoderLayer(d_model=512, num_attention_heads=8, dff=2048)
+
+sample_decoder_layer_output, att1, att2 = sample_decoder_layer(
+    x=tf.random.uniform((2, 5, 512)),
+    mask=None,
+    enc_output=sample_encoder_layer_output,
+    enc_mask=None,
+    training=False)
+
+# Print the shape.
+print('decoder test output',sample_decoder_layer_output.shape)
