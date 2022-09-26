@@ -41,27 +41,28 @@ class PositionalEmbedding(tf.keras.layers.Layer):
     x = x + self.pos_encoding[tf.newaxis, :length, :]
     return x
 
-tokenizer = load_dataset_tokenized()
 
-model_name = 'ted_hrlr_translate/pt_to_en'
-train_examples, val_examples = load_language_dataset(model_name)
-train_batches = make_batches(train_examples)
-val_batches = make_batches(val_examples)
-
-for (pt, en), en_labels in train_batches.take(3):
-  print(pt.shape)
-  print(en.shape)
-
-print(tokenizer.pt.get_vocab_size())
-
-embed_pt = PositionalEmbedding(vocab_size=7765, d_model=512)
-embed_en = PositionalEmbedding(vocab_size=7010, d_model=512)
-
-###See lan and en first instantiations
-pt_emb = embed_pt(pt)
-en_emb = embed_en(en)
-print(pt_emb)
-print(en_emb)
 ### Error due to vocab size ?? https://github.com/tensorflow/models/pull/4974 -> ERROR FIXED VOCAB SIZE
 
-#if __name__ == '__main__':
+if __name__ == '__main__':
+  tokenizer = load_dataset_tokenized()
+
+  model_name = 'ted_hrlr_translate/pt_to_en'
+  train_examples, val_examples = load_language_dataset(model_name)
+  train_batches = make_batches(train_examples)
+  val_batches = make_batches(val_examples)
+
+  for (pt, en), en_labels in train_batches.take(1):
+    print('TRAIN BATCH LANGUAGE 1', pt.shape)
+    print('TRAIN BATCH ENGLISH', en.shape)
+
+  print(tokenizer.pt.get_vocab_size())
+
+  embed_pt = PositionalEmbedding(vocab_size=7765, d_model=512)
+  embed_en = PositionalEmbedding(vocab_size=7010, d_model=512)
+
+  ###See lan and en first instantiations
+  pt_emb = embed_pt(pt)
+  en_emb = embed_en(en)
+  print(pt_emb)
+  print(en_emb)

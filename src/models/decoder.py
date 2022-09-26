@@ -59,7 +59,7 @@ class DecoderLayer(tf.keras.layers.Layer):
         value=x,
         key=x,
         attention_mask=self_attention_mask,  # A boolean mask that prevents attention to certain positions.
-        use_causal_mask=True,  # A boolean to indicate whether to apply a causal mask to prevent tokens from attending to future tokens.
+        #use_causal_mask=True,  # A boolean to indicate whether to apply a causal mask to prevent tokens from attending to future tokens.
         return_attention_scores=True,  # Shape `(batch_size, target_seq_len, d_model)`.
         training=training,  # A boolean indicating whether the layer should behave in training mode.
         )
@@ -140,20 +140,20 @@ class Decoder(tf.keras.layers.Layer):
     # The shape of x is `(batch_size, target_seq_len, d_model)`.
     return x, attention_weights
 
-
+if __name__=='__main__':
 ##TEST
-sample_encoder_layer = EncoderLayer(d_model=512, num_attention_heads=8, dff=2048)
+  sample_encoder_layer = EncoderLayer(d_model=512, num_attention_heads=8, dff=2048)
 
-sample_encoder_layer_output = sample_encoder_layer(
+  sample_encoder_layer_output = sample_encoder_layer(
     tf.random.uniform((2, 3, 512)), training=False, mask=None)
 
 # Print the shape.
-print('encoder test output', sample_encoder_layer_output.shape)
+  print('encoder test output', sample_encoder_layer_output.shape)
 
 
-sample_decoder_layer = DecoderLayer(d_model=512, num_attention_heads=8, dff=2048)
+  sample_decoder_layer = DecoderLayer(d_model=512, num_attention_heads=8, dff=2048)
 
-sample_decoder_layer_output, att1, att2 = sample_decoder_layer(
+  sample_decoder_layer_output, att1, att2 = sample_decoder_layer(
     x=tf.random.uniform((2, 5, 512)),
     mask=None,
     enc_output=sample_encoder_layer_output,
@@ -162,3 +162,4 @@ sample_decoder_layer_output, att1, att2 = sample_decoder_layer(
 
 # Print the shape.
 print('decoder test output',sample_decoder_layer_output.shape)
+print('decoder done')

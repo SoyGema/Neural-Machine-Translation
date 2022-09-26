@@ -123,11 +123,12 @@ class Encoder(tf.keras.layers.Layer):
     return x  # Shape `(batch_size, input_seq_len, d_model)`.
 
 
+if __name__ == '__main__':
+  sample_encoder_layer = EncoderLayer(d_model=512, num_attention_heads=8, dff=2048)
 
-sample_encoder_layer = EncoderLayer(d_model=512, num_attention_heads=8, dff=2048)
-
-sample_encoder_layer_output = sample_encoder_layer(
+  sample_encoder_layer_output = sample_encoder_layer(
     tf.random.uniform((2, 3, 512)), training=False, mask=None)
 
-# Print the shape.
-print(sample_encoder_layer_output.shape) 
+  # Print the shape.
+  print(sample_encoder_layer_output.shape) 
+  print('encoder done')

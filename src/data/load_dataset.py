@@ -41,23 +41,6 @@ def load_language_dataset2(path):
     train_examples, val_examples = examples['train'], examples['validation']
     return train_examples, val_examples
 
-def load_language_dataset2(path2):
-    """
-    Loads the language dataset, depending on path 
-    it will be based on one language or the other
-    
-    args: string path . Right now portuguese 
-
-    """
-    #path2 = '/Users/gema/Documents/Neural-Machine-Translation/datasets/ru_to_en'
-    examples, metadata = tfds.load(path2,
-                               with_info=True,
-                               as_supervised=True)
-    print('are you doing this?')
-    train_examples, val_examples = examples['train'], examples['validation']
-    return train_examples, val_examples
-
-
 
 ## different paths to make different languages. for PIPELINE dvc.yaml 
 # https://www.tensorflow.org/datasets/catalog/ted_hrlr_translate#ted_hrlr_translatept_to_en
