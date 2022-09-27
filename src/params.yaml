@@ -1,0 +1,27 @@
+
+
+load:
+  dataset_name: ''
+
+tokenizer_transformer:
+  model_name_zip: ''
+  BUFFER_SIZE: 20000
+  BATCH_SIZE: 64
+  MAX_TOKENS: 128
+
+postional_encoding:
+  input_vocab_size: 7765
+  target_vocab_size: 7010
+  d_model: 512
+
+train_transformer:
+  input_vocab_size:
+  target_vocab_size:
+  MAX_TOKENS:
+
+  num_layers: 4
+  d_model: 128
+  dff: 512
+  num_attention_heads: 8
+  dropout_rate: 0.1 
+  EPOCHS: 2 
