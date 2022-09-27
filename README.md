@@ -1,6 +1,49 @@
 Neural Machine Translation
 ==============================
 
+The Challenge
+------------
+
+Trains a model that transforms a language **text from one language into another**, taking into account **LLM fundamentals:** Transformers architecture and feature engineering coming from Natural Language Processing.
+
+**Why is this suitable/interesting for DVC ? and VSCode DVC extension?**
+
+- DVC allows us to **version 9 different language** datasets to be trained.
+
+- DVC Pipelines It allows us to **train transformer architecture for each language avoiding code duplication and controlling versioning** by language in datasets, feature engineering parameters and architecture variations.
+
+- **VSCode DVC extension table and plots** allow us to benchmark how well the same/best feature engineering and the same/best architecture perform with various languages and visualize learning and attention heads.
+
+What is Neural Machine Translation?
+------------
+
+Neural Machine Translation’s main goal is to transform a sequence from one language into another sequence to another one. It is an approach to machine translation inside NLP that uses Artificial Neural Networks to predict the likelihood of a sequence of words, often trained in an end-to-end fashion and can generalize well to very long word sequences. Formally it can be defined as a NN that models the conditional probability $ p(y|x)$ of translating a sentence $x1...xn$ into $y1...yn$.
+
+Current state of the project
+------------
+
+The Project structure divides as follows.
+Tokenizer language has created 9 datasets of 9 tokenized languages following the word embeddings tutorial. This is separated from the Neural Machine Translation project for faster integration. These datasets are integrated with DVC.
+In src/features you can see feature engineering steps, that are related to the feature engineering transformation
+
+* **load_dataset.py** Loads data 
+* **tokenizer_transformer.py**  Tokenize the dataset and makes batches
+* **positional_encoding.py** Makes the embeddings
+
+In src/models you can find the modules for training and for inference
+
+* **train_transformer.py** Trains the transformer, declaring the arguments for encoder and decoder modules
+
+In src/visualization you can find the visualizations for VS Code extension
+
+* **metrics.py** define the loss_function and accuracy_function.
+* **visualize.py** define the attention heads that will be plotted in visual studio.
+
+The current tasks to do include
+-[ ] debugging Inference and saving model.
+-[ ] DVC pipeline. Currently creating dvc.yaml and params.yml file 
+-[ ] integration with DVC VsCode Extension . 
+
 
 Project Organization
 ------------
@@ -57,50 +100,6 @@ Project Organization
 
 
 
-
-
-
-# Attention-based Neural-Machine-Translation
-
-Neural Machine Translation is an approach to machine translation that uses Artificial
-Neural Networks to predict likelihood of a sequence of words, often trained in an 
-end-to-end fashion and has the ability to generalize well to very long word sequences.
-Formally it can be defined as a NN that models the conditional probability p(y x) of
-translating a sentence x1...xn into y1...yn.
-
-# POC 1
-Using [transformers for Neural Machine Translation](https://arxiv.org/pdf/2106.02242.pdf)
-The high level idea behind transformers is to design the attention mechanism: the ability
-to set attention at different parts of a sequence for calculating a sequence representation.
-It presents several difference with respect to past sequential architectures.
- 
- 1. No supositions about temporal/spacial relationship in between data.Therefore, it
- doesn´t think about them about a sequence per se. 
- 
- 2. Layer outputs can be calcualted in parallel
- 
- 3. Learn long dependencies 
-
-
-
-# Datasets
-
-The project attempts to use the Spanish Dataset.
-Other research include
-French to English
-German to English
-Portuguese to English 
-Russian to English
-
-# POC 2?
-
-Research has take the attention-based mechanism into this field. The exploration implements
-the paper based on two simple and effective classes of attentional mechanism:
-
-* global approach : attends to all source words
-* local: looks at one sentence. Conceived as an iteration from the existing previous
-research literature. The difference is that it is differenciable almost everywhere, computationally
-less expensive. This is based moslty in LSTM architectures.
 
 
 @inproceedings{Ye2018WordEmbeddings,
