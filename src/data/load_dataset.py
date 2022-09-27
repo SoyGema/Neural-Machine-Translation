@@ -25,23 +25,6 @@ def load_language_dataset(path):
     return train_examples, val_examples
 
 
-def load_language_dataset2(path):
-    """
-    Loads the language dataset, depending on path 
-    it will be based on one language or the other
-    
-    args: string path . Right now portuguese 
-
-    """
-
-    examples, metadata = tfds.load(path,
-                               with_info=True,
-                               as_supervised=True)
-    print('are you doing this?')
-    train_examples, val_examples = examples['train'], examples['validation']
-    return train_examples, val_examples
-
-
 ## different paths to make different languages. for PIPELINE dvc.yaml 
 # https://www.tensorflow.org/datasets/catalog/ted_hrlr_translate#ted_hrlr_translatept_to_en
 #[#'az_to_en', #'aztr_to_en', #'be_to_en',

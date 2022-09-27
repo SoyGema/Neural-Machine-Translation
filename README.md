@@ -8,11 +8,11 @@ Trains a model that transforms a language **text from one language into another*
 
 **Why is this suitable/interesting for DVC ? and VSCode DVC extension?**
 
-- DVC allows us to **version 9 different language** datasets to be trained.
+- [DVC](https://dvc.org/) allows us to **version 9 different language** datasets to be trained.
 
-- DVC Pipelines It allows us to **train transformer architecture for each language avoiding code duplication and controlling versioning** by language in datasets, feature engineering parameters and architecture variations.
+- [DVC Pipelines](https://dvc.org/doc/user-guide/pipelines/defining-pipelines) It allows us to **train transformer architecture for each language avoiding code duplication and controlling versioning** by language in datasets, feature engineering parameters and architecture variations.
 
-- **VSCode DVC extension table and plots** allow us to benchmark how well the same/best feature engineering and the same/best architecture perform with various languages and visualize learning and attention heads.
+- **VSCode [DVC extension]() table and plots** allow us to benchmark how well the same/best feature engineering and the same/best architecture perform with various languages and visualize learning and attention heads.
 
 What is Neural Machine Translation?
 ------------
@@ -40,9 +40,9 @@ In src/visualization you can find the visualizations for VS Code extension
 * **visualize.py** define the attention heads that will be plotted in visual studio.
 
 The current tasks to do include
--[ ] debugging Inference and saving model.
--[ ] DVC pipeline. Currently creating dvc.yaml and params.yml file 
--[ ] integration with DVC VsCode Extension . 
+- [ ] debugging Inference and saving model.
+- [ ] DVC pipeline. Currently creating dvc.yaml and params.yml file 
+- [ ] integration with DVC VsCode Extension . 
 
 
 Project Organization
