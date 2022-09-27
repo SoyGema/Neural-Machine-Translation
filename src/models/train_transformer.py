@@ -212,6 +212,7 @@ for epoch in range(EPOCHS):
     ckpt_save_path = ckpt_manager.save()
     print(f'Saving checkpoint for epoch {epoch+1} at {ckpt_save_path}')
 
+  ### Add metrics to dvc live  
   print(f'Epoch {epoch + 1} Loss {train_loss.result():.4f} Accuracy {train_accuracy.result():.4f}')
 
   print(f'Time taken for 1 epoch: {time.time() - start:.2f} secs\n')
