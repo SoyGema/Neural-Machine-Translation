@@ -12,37 +12,42 @@ Trains a model that transforms a language **text from one language into another*
 
 - [DVC Pipelines](https://dvc.org/doc/user-guide/pipelines/defining-pipelines) It allows us to **train transformer architecture for each language avoiding code duplication and controlling versioning** by language in datasets, feature engineering parameters and architecture variations.
 
-- **VSCode [DVC extension]() table and plots** allow us to benchmark how well the same/best feature engineering and the same/best architecture perform with various languages and visualize learning and attention heads.
+- **VSCode [DVC extension](https://marketplace.visualstudio.com/items?itemName=Iterative.dvc) table and plots** allow us to benchmark how well the same/best feature engineering and the same/best architecture perform with various languages and visualize learning and attention heads.
 
 What is Neural Machine Translation?
 ------------
 
 Neural Machine Translation’s main goal is to transform a sequence from one language into another sequence to another one. It is an approach to machine translation inside NLP that uses Artificial Neural Networks to predict the likelihood of a sequence of words, often trained in an end-to-end fashion and can generalize well to very long word sequences. Formally it can be defined as a NN that models the conditional probability $ p(y|x)$ of translating a sentence $x1...xn$ into $y1...yn$.
 
+Why Transformers for Neural Machine Translation?
+------------
+
+Transformer has been widely adopted in Neural Machine Translation (NMT) because of its large capacity and parallel training of sequence generation. However, the deployment of Transformers is challenging because different scenarios require models of different complexities and scales.
+
 Current state of the project
 ------------
 
 The Project structure divides as follows.
 Tokenizer language has created 9 datasets of 9 tokenized languages following the word embeddings tutorial. This is separated from the Neural Machine Translation project for faster integration. These datasets are integrated with DVC.
-In src/features you can see feature engineering steps, that are related to the feature engineering transformation
+In ´src/features´ you can see feature engineering steps, that are related to the feature engineering transformation
 
 * **load_dataset.py** Loads data 
 * **tokenizer_transformer.py**  Tokenize the dataset and makes batches
 * **positional_encoding.py** Makes the embeddings
 
-In src/models you can find the modules for training and for inference
+In ´src/models´ you can find the modules for training and for inference
 
 * **train_transformer.py** Trains the transformer, declaring the arguments for encoder and decoder modules
 
-In src/visualization you can find the visualizations for VS Code extension
+In ´src/visualization´ you can find the visualizations for VS Code extension
 
 * **metrics.py** define the loss_function and accuracy_function.
 * **visualize.py** define the attention heads that will be plotted in visual studio.
 
 The current tasks to do include
 - [ ] debugging Inference and saving model.
-- [ ] DVC pipeline. Currently creating dvc.yaml and params.yml file 
-- [ ] integration with DVC VsCode Extension . 
+- [ ] DVC pipeline. Currently creating ´dvc.yaml´ and params.yml file 
+- [ ] integration with DVC VsCode Extension. 
 
 
 Project Organization
