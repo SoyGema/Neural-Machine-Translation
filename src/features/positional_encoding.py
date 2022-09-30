@@ -3,9 +3,13 @@ import tensorflow as tf
 from src.features.tokenizer_transformer import load_dataset_tokenized
 from src.data.load_dataset import load_language_dataset
 from src.features.tokenizer_transformer import make_batches
-
+import yaml
 
 model_name = 'ted_hrlr_translate/pt_to_en'
+
+with open('params.yaml') as config_file:
+    config = yaml.safe_load(config_file)
+
 
 def positional_encoding(length, depth):
   depth = depth/2
@@ -54,12 +58,12 @@ if __name__ == '__main__':
 
   for (pt, en), en_labels in train_batches.take(1):
     print('----TRAIN BATCH LANGUAGE 1----', pt.shape)
-    print('----TRAIN BATCH ENGLISH----', en.shape)
+    print('----TRAIN BATCH ENGLISH ----', en.shape)
 
   print(tokenizer.pt.get_vocab_size())
 
-  embed_pt = PositionalEmbedding(vocab_size=7765, d_model=512)
-  embed_en = PositionalEmbedding(vocab_size=7010, d_model=512)
+  embed_pt = PositionalEmbedding(vocab_size=config['postional_encoding']['input_vocab_size'], d_model=config['postional_encoding']['d_model'])
+  embed_en = PositionalEmbedding(vocab_size=config['postional_encoding']['target_vocab_size'], d_model=config['postional_encoding']['d_model'])
 
   ###See lan and en first instantiations
   pt_emb = embed_pt(pt)
