@@ -86,14 +86,18 @@ Project Organization
     │   │   └── make_dataset.py
     │   │
     │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
+    │   │   └── tokenizer_transformer.py
+    │   │   └── positional_encoding.py 
     │   │
     │   ├── models         <- Scripts to train models and then use trained models to make
     │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
+    │   │   ├── decoder.py 
+    │   │   ├── encoder.py       
+    │   │   ├── predict_transformer.py    
+    │   │   └── train_transformer.py
     │   │
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
+    │       ├── metrics.py  
     │       └── visualize.py
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io

@@ -1,6 +1,7 @@
 
 import os
 from pyexpat import model
+from sre_parse import Tokenizer
 import numpy as np
 #import matplotlib.pyplot as plt
 import pathlib
@@ -9,6 +10,8 @@ import tensorflow_datasets as tfds
 import tensorflow_text as text
 import tensorflow as tf
 from tensorflow_text.tools.wordpiece_vocab import bert_vocab_from_dataset as bert_vocab
+import yaml
+
 
 tf.get_logger().setLevel('ERROR')
 pwd = pathlib.Path.cwd()
@@ -25,22 +28,22 @@ BUFFER_SIZE = 20000
 BATCH_SIZE = 64
 MAX_TOKENS = 128
 
-def load_dataset_tokenized():
-    """Load the model from local,
-    once dvc pull has been done """
+def load_dataset_tokenized() -> Tokenizer:
+    """Load the  Tokenized model from local,
+    once dvc pull has been done.  """
 
     fullPath = os.path.abspath(PYTHONPATH + "/datasets/" + model_name_zip) 
-    print('THE PATH FROM IT READS IS'+ fullPath)
+    print('----THE PATH FROM IT READS IS----'+ fullPath)
    
     model_for_processing = tf.keras.utils.get_file(model_name_zip, 'file://'+ fullPath, untar=True)
     
     with ZipFile(model_for_processing, 'r') as zipObj:
         zipObj.extractall('/Users/gema/.keras/datasets/')
 
-    print('MODEL LOADED')
+    print('----MODEL LOADED----')
     folder_name = 'ted_hrlr_translate_pt_en_converter'
     tokenizer = tf.saved_model.load('/Users/gema/.keras/datasets/' + folder_name)
-    print('TOKENIZER' ,tokenizer)
+    print('----TOKENIZER----' ,tokenizer)
     return tokenizer
 
 
@@ -80,5 +83,5 @@ if __name__ == '__main__':
     load_dataset_tokenized()
     train_batches = make_batches(train_examples)
     val_batches = make_batches(val_examples)
-    print('train' )
+    print('----TRAINING BATCHES----' )
     print(train_batches)

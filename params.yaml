@@ -4,7 +4,8 @@ load:
   dataset_name: ''
 
 tokenizer_transformer:
-  model_name_zip: ''
+  model_name_zip: 'ted_hrlr_translate_pt_en_converter.zip'
+  model_name: 'ted_hrlr_translate/pt_to_en'
   BUFFER_SIZE: 20000
   BATCH_SIZE: 64
   MAX_TOKENS: 128
@@ -15,9 +16,9 @@ postional_encoding:
   d_model: 512
 
 train_transformer:
-  input_vocab_size:
-  target_vocab_size:
-  MAX_TOKENS:
+  input_vocab_size: 8000
+  target_vocab_size: 8000
+  MAX_TOKENS: 128
 
   num_layers: 4
   d_model: 128

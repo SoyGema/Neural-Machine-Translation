@@ -20,7 +20,7 @@ def load_language_dataset(path):
     examples, metadata = tfds.load(path,
                                with_info=True,
                                as_supervised=True)
-    print('Loading Dataset')
+    print('----LOADING DATASET----')
     train_examples, val_examples = examples['train'], examples['validation']
     return train_examples, val_examples
 
@@ -40,12 +40,12 @@ def load_dataset_test(path):
     train_examples, _ = load_language_dataset(path)
 
     for lan_examples, en_examples in train_examples.batch(3).take(1):
-        print('> Examples in Language to translate:')
+        print('----EXAMPLES IN LANGUAGE TO TRANSLATE----')
     for lan in lan_examples.numpy():
         print(lan.decode('utf-8'))
     print()
 
-    print('> Examples in English!!:')
+    print('----EXAMPLES IN ENGLISH----')
     for en in en_examples.numpy():
         print(en.decode('utf-8'))
 

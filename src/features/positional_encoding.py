@@ -53,8 +53,8 @@ if __name__ == '__main__':
   val_batches = make_batches(val_examples)
 
   for (pt, en), en_labels in train_batches.take(1):
-    print('TRAIN BATCH LANGUAGE 1', pt.shape)
-    print('TRAIN BATCH ENGLISH', en.shape)
+    print('----TRAIN BATCH LANGUAGE 1----', pt.shape)
+    print('----TRAIN BATCH ENGLISH----', en.shape)
 
   print(tokenizer.pt.get_vocab_size())
 

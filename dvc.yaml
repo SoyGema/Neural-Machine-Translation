@@ -52,5 +52,11 @@ stages:
     - scr/models/decoder.py
     outs:
     - model_trained.pb ?
+    metrics:
+      - training_metrics.json:
+          cache: false
+    plots:
+      - training_metrics/scalars:
+          cache: false
 
   predict_transformer:

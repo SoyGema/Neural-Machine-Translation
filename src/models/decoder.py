@@ -161,5 +161,5 @@ if __name__=='__main__':
     training=False)
 
 # Print the shape.
-print('decoder test output',sample_decoder_layer_output.shape)
-print('decoder done')
+  print('decoder test output',sample_decoder_layer_output.shape)
+  print('decoder done')

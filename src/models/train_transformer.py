@@ -11,11 +11,14 @@ from src.features.tokenizer_transformer import make_batches
 from src.visualization.metrics import loss_function, accuracy_function
 from src.data.load_dataset import load_language_dataset 
 from src.features.tokenizer_transformer import load_dataset_tokenized
+from dvclive import Live
+from ruamel.yaml import YAML
+
 model_name = 'ted_hrlr_translate/pt_to_en'
 train_examples, val_examples = load_language_dataset(model_name)
 
-input_vocab_size= 7765
-target_vocab_size = 7010
+input_vocab_size= 8000
+target_vocab_size = 8000
 MAX_TOKENS=128
 
 ##Define transformer and try it out 
@@ -100,11 +103,11 @@ input = tf.constant([[1,2,3, 4, 0, 0, 0]])
 target = tf.constant([[1,2,3, 0]])
 
 x, attention = transformer((input, target))
-print('test the transformer')
+print('----TEST THE TRANSFORMER----')
 print(x.shape)
 print(attention['decoder_layer1_block1'].shape)
 print(attention['decoder_layer4_block2'].shape)
-print('transformer tested')
+print('----TRANSFORMER TESTED----')
 transformer.summary()
 
 class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
@@ -189,11 +192,14 @@ def train_step(inputs, labels):
   train_accuracy(accuracy_function(tar_real, predictions))
 
 
-EPOCHS = 2
+EPOCHS = 1
 ##!!!train_batches=
 
 train_batches = make_batches(train_examples)
 val_batches = make_batches(val_examples)
+
+## INITIALIZE DVC LIVE
+live = Live()
 
 for epoch in range(EPOCHS):
   start = time.time()
@@ -205,6 +211,18 @@ for epoch in range(EPOCHS):
   for (batch, (inp, tar)) in enumerate(train_batches):
     train_step(inp, tar)
 
+ ### ------Add metrics to dvc live . NOT TESTED--------- FROM DOCS IM ASSUMMING THAT WE HAVE TO DEFINE IT IN THE TRAINING STAGE -----
+
+    #for acc, train_accuracy in metrics.items():
+      #live.log(acc, train_accuracy)
+
+    #for loss, train_loss in metrics.items():
+      #live.log(loss, train_loss)
+
+    #live.next_step()
+
+ ### ------NOT TESTED--------- 
+
     if batch % 50 == 0:
       print(f'Epoch {epoch + 1} Batch {batch} Loss {train_loss.result():.4f} Accuracy {train_accuracy.result():.4f}')
 
@@ -212,15 +230,19 @@ for epoch in range(EPOCHS):
     ckpt_save_path = ckpt_manager.save()
     print(f'Saving checkpoint for epoch {epoch+1} at {ckpt_save_path}')
 
-  ### Add metrics to dvc live  
+   
   print(f'Epoch {epoch + 1} Loss {train_loss.result():.4f} Accuracy {train_accuracy.result():.4f}')
 
   print(f'Time taken for 1 epoch: {time.time() - start:.2f} secs\n')
+  print(f'Training finished')
+
 
 
 tokenizers = load_dataset_tokenized()
 
 ##### EXPORT MODEL
+
+##### TRANSLATE THE MODEL. PROBABLY GOING FOR predict_transformer.py
 
 class Translator(tf.Module):
   def __init__(self, tokenizers, transformer):
@@ -293,8 +315,19 @@ class ExportTranslator(tf.Module):
     return result
 
 
+def print_translation(sentence, tokens, ground_truth):
+  print(f'{"Input:":15s}: {sentence}')
+  print(f'{"Prediction":15s}: {tokens.numpy().decode("utf-8")}')
+  print(f'{"Ground truth":15s}: {ground_truth}')
+
+
+sentence = 'este é um problema que temos que resolver.'
+ground_truth = 'this is a problem we have to solve .'
+
 translator = Translator(tokenizers, transformer)
-translator('este é o primeiro livro que eu fiz.').numpy()
-tf.saved_model.save(translator, export_dir='translator')
-reloaded = tf.saved_model.load('translator')
-reloaded('este é o primeiro livro que eu fiz.').numpy()
+translator_exported = ExportTranslator(translator)
+
+
+#translated_text, translated_tokens, attention_weights = translator(
+    #tf.constant(sentence))
+#print_translation(sentence, translated_text, ground_truth)

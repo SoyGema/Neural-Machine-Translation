@@ -2,10 +2,19 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
+from src.features.tokenizer_transformer import load_dataset_tokenized
+from src.features.tokenizer_language import make_batches
+from src.models.train_transformer import translator , print_translation
+from src.data.load_dataset import load_language_dataset
+
 
 ##### TOKENIZATION . unclear if this chall be appear finally on the experiments table. 
 
 lengths = []
+tokenizers = load_dataset_tokenized()
+
+model_name = 'ted_hrlr_translate/pt_to_en'
+train_examples, val_examples = load_language_dataset(model_name)
 
 for pt_examples, en_examples in train_examples.batch(1024):
   pt_tokens = tokenizers.en.tokenize(pt_examples)
@@ -88,17 +97,19 @@ def plot_attention_weights(sentence, translated_tokens, attention_heads):
   plt.show()
 
 
-plot_attention_weights(sentence,
+if __name__ == '__main__':
+
+  plot_attention_weights(sentence,
                        translated_tokens,
                        attention_weights['decoder_layer4_block2'][0])
 
 
-sentence = 'Eu li sobre triceratops na enciclopédia.'
-ground_truth = 'I read about triceratops in the encyclopedia.'
+  sentence = 'Eu li sobre triceratops na enciclopédia.'
+  ground_truth = 'I read about triceratops in the encyclopedia.'
 
-translated_text, translated_tokens, attention_weights = translator(
-    tf.constant(sentence))
-print_translation(sentence, translated_text, ground_truth)
+  translated_text, translated_tokens, attention_weights = translator(
+      tf.constant(sentence))
+  print_translation(sentence, translated_text, ground_truth)
 
-plot_attention_weights(sentence, translated_tokens,
+  plot_attention_weights(sentence, translated_tokens,
                        attention_weights['decoder_layer4_block2'][0])
