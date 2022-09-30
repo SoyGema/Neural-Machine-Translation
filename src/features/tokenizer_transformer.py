@@ -1,4 +1,5 @@
 
+from distutils.command.config import config
 import os
 from pyexpat import model
 from sre_parse import Tokenizer
@@ -20,29 +21,33 @@ from src.data.load_dataset import load_language_dataset
 #------------------------------------------------------#
 ## Build Tokenizer
 
-model_name_zip = 'ted_hrlr_translate_pt_en_converter.zip'
+#model_name_zip = 'ted_hrlr_translate_pt_en_converter.zip'
 model_name = 'ted_hrlr_translate/pt_to_en'
 #train_examples, val_examples = load_language_dataset(model_name)
 PYTHONPATH='/Users/gema/Documents/Neural-Machine-Translation'
-BUFFER_SIZE = 20000
-BATCH_SIZE = 64
-MAX_TOKENS = 128
+#['BUFFER_SIZE'] = 20000
+#BATCH_SIZE = 64
+#['MAX_TOKENS'] = 128
+
+with open('params.yaml') as config_file:
+    config = yaml.safe_load(config_file)
+
 
 def load_dataset_tokenized() -> Tokenizer:
     """Load the  Tokenized model from local,
     once dvc pull has been done.  """
 
-    fullPath = os.path.abspath(PYTHONPATH + "/datasets/" + model_name_zip) 
+    fullPath = os.path.abspath(PYTHONPATH + "/datasets/" + config['tokenizer_transformer']['model_name_zip']) 
     print('----THE PATH FROM IT READS IS----'+ fullPath)
    
-    model_for_processing = tf.keras.utils.get_file(model_name_zip, 'file://'+ fullPath, untar=True)
+    model_for_processing = tf.keras.utils.get_file(config['tokenizer_transformer']['model_name_zip'], 'file://'+ fullPath, untar=True)
     
     with ZipFile(model_for_processing, 'r') as zipObj:
         zipObj.extractall('/Users/gema/.keras/datasets/')
 
     print('----MODEL LOADED----')
-    folder_name = 'ted_hrlr_translate_pt_en_converter'
-    tokenizer = tf.saved_model.load('/Users/gema/.keras/datasets/' + folder_name)
+    #folder_name = 'ted_hrlr_translate_pt_en_converter'
+    tokenizer = tf.saved_model.load('/Users/gema/.keras/datasets/' + config['tokenizer_transformer']['folder_name'])
     print('----TOKENIZER----' ,tokenizer)
     return tokenizer
 
@@ -54,11 +59,11 @@ def prepare_token_batches(pt, en):
     """
     tokenizer = load_dataset_tokenized()
     pt = tokenizer.pt.tokenize(pt)
-    pt = pt[:, :MAX_TOKENS]
+    pt = pt[:, :config['tokenizer_transformer']['MAX_TOKENS']]
     pt = pt.to_tensor()
 
     en = tokenizer.en.tokenize(en)
-    en = en[:, :(MAX_TOKENS+1)]
+    en = en[:, :(config['tokenizer_transformer']['MAX_TOKENS']+1)]
     en_inputs = en[:, :-1].to_tensor()  # Drop the [END] tokens
     en_labels = en[:, 1:].to_tensor()   # Drop the [START] tokens
 
@@ -69,8 +74,8 @@ def prepare_token_batches(pt, en):
 def make_batches(ds):
   return (
       ds
-      .shuffle(BUFFER_SIZE)
-      .batch(BATCH_SIZE)
+      .shuffle(config['tokenizer_transformer']['BUFFER_SIZE'])
+      .batch(config['tokenizer_transformer']['BATCH_SIZE'])
       .map(prepare_token_batches, tf.data.AUTOTUNE)
       .prefetch(buffer_size=tf.data.AUTOTUNE))
 
