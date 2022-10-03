@@ -1,5 +1,32 @@
 
 
+### Just putting here ALL STAGES how they might work
+## dvc stage add -n load \
+##               -o data\dataset \
+##               -p load.model_name \
+##               python src/data/load_dataset.py data/
+##
+##
+##
+## dvc stage add -n tokenizer_transformer \
+##               -p tokenizer_transformer.model_name_zip,tokenizer_transformer.BUFFER_SIZE, tokenizer_transformer.BATCH_SIZE, tokenizer_transformer.MAX_TOKENS
+##               -d src/data/load_dataset.py \
+##               -o train_batches , val_batches
+##               python scr/features/tokenizer_language.py
+##
+##
+## dvc stage add -n positional_encoding \
+##               -p positional_encoding.input_vocab_size, positional_encoding.target_vocab_size, positional_encoding.d_model
+##               -d src/data/tokenized_transformer.py
+##               -o pt_emb, en_emb
+##               python scr/features/positional_encoder.py
+##
+## dvc stage add -n train_transformer \
+##               -p train_transformer.num_layers, train_transformer.d_model,train_transformer.dff, train_transformer.num_attention_heads,train_transformer.dropout_rate, train_transformer.EPOCHS
+##               -d scr/models/encoder.py -d scr/models/decoder.py
+##               -o
+##               python src/models/train_transformer.py
+
 
 stages:
   # LOADS THE DATASET. OUTPUT . Dataset Loaded
@@ -32,7 +59,7 @@ stages:
     - target_vocab_size
     - d_model 
     deps:
-    - src/data/tokenized_transformer.py
+    - src/features/tokenized_transformer.py
     outs:
     - pt_emb
     - en_emb
