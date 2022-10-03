@@ -58,5 +58,3 @@ stages:
     plots:
       - training_metrics/scalars:
           cache: false
-
-  predict_transformer:

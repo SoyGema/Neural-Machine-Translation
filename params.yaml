@@ -11,16 +11,12 @@ tokenizer_transformer:
   BATCH_SIZE: 64
   MAX_TOKENS: 128
 
-postional_encoding:
+positional_encoding:
   input_vocab_size: 7765
   target_vocab_size: 7010
   d_model: 512
 
 train_transformer:
-  input_vocab_size: 8000
-  target_vocab_size: 8000
-  MAX_TOKENS: 128
-
   num_layers: 4
   d_model: 128
   dff: 512

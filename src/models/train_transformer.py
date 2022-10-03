@@ -60,7 +60,7 @@ class Transformer(tf.keras.Model):
       )
 
     # The final linear layer.
-    self.final_layer = tf.keras.layers.Dense(config['train_transformer']['target_vocab_size'])
+    self.final_layer = tf.keras.layers.Dense(config['positional_encoding']['target_vocab_size'])
 
   def call(self, inputs, training):
     # Keras models prefer if you pass all your inputs in the first argument.
@@ -216,6 +216,8 @@ for epoch in range(EPOCHS):
     train_step(inp, tar)
 
  ### ------Add metrics to dvc live . NOT TESTED--------- FROM DOCS IM ASSUMMING THAT WE HAVE TO DEFINE IT IN THE TRAINING STAGE -----
+    live.log(train_accuracy)
+    live.log(train_loss)
 
     #for acc, train_accuracy in metrics.items():
       #live.log(acc, train_accuracy)
@@ -253,7 +255,7 @@ class Translator(tf.Module):
     self.tokenizers = tokenizers
     self.transformer = transformer
 
-  def __call__(self, sentence, max_length=config['train_transformer']['MAX_TOKENS']):
+  def __call__(self, sentence, max_length=config['tokenizer_transformer']['MAX_TOKENS']):
     # The input sentence is Portuguese, hence adding the `[START]` and `[END]` tokens.
     assert isinstance(sentence, tf.Tensor)
     if len(sentence.shape) == 0:
