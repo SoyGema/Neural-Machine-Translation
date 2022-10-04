@@ -62,8 +62,8 @@ if __name__ == '__main__':
 
   print(tokenizer.pt.get_vocab_size())
 
-  embed_pt = PositionalEmbedding(vocab_size=config['postional_encoding']['input_vocab_size'], d_model=config['postional_encoding']['d_model'])
-  embed_en = PositionalEmbedding(vocab_size=config['postional_encoding']['target_vocab_size'], d_model=config['postional_encoding']['d_model'])
+  embed_pt = PositionalEmbedding(vocab_size=config['positional_encoding']['input_vocab_size'], d_model=config['positional_encoding']['d_model'])
+  embed_en = PositionalEmbedding(vocab_size=config['positional_encoding']['target_vocab_size'], d_model=config['positional_encoding']['d_model'])
 
   ###See lan and en first instantiations
   pt_emb = embed_pt(pt)

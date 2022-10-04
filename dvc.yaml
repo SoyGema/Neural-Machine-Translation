@@ -33,33 +33,33 @@ stages:
   load: #Stage name 
     cmd: python src/data/load_dataset.py data/ #The command that is going to be executed
     params: # from params.yml
-    - model_name
+    - load.model_name
     outs:
     - dataset
 
   tokenizer_transformer:
   # PREPARES TOKEN BATCHES .ALSO LOADS TOKENIZED DATASET. OUTPUT the train batches and val batches
-    cmd: python src/features/tokenizer_language.py
+    cmd: python src/features/tokenizer_transformer.py
     params:
-    - model_name_zip
-    - BUFFER_SIZE
-    - BATCH_SIZE
-    - MAX_TOKENS 
+    - tokenizer_transformer.model_name_zip
+    - tokenizer_transformer.BUFFER_SIZE
+    - tokenizer_transformer.BATCH_SIZE
+    - tokenizer_transformer.MAX_TOKENS 
     deps: #Dependencies
     - src/data/load_dataset.py	
     outs:
     - train_batches
     - val_batches
 
-  postional_encoding:
+  positional_encoding:
   # MAKE THE POSITIONAL EMBEDDINGS
-    cmd: python src/features/positional_encoder.py
+    cmd: python src/features/positional_encoding.py
     params:
-    - input_vocab_size
-    - target_vocab_size
-    - d_model 
+    - positional_encoding.input_vocab_size
+    - positional_encoding.target_vocab_size
+    - positional_encoding.d_model 
     deps:
-    - src/features/tokenized_transformer.py
+    - src/features/tokenizer_transformer.py
     outs:
     - pt_emb
     - en_emb
@@ -68,15 +68,14 @@ stages:
   # INSTANTIATE ENCODER AND DECODER MODULES , THE TRANSFORMER ITSELF AND TRAINS IT
     cmd: python scr/models/train_transformers.py
     params:
-    - num_layers
-    - d_model
-    - dff
-    - num_attention_heads
-    - dropout_rate
-    - EPOCHS
+    - train_transformer.num_layers
+    - train_transformer.d_model
+    - train_transformer.dff
+    - train_transformer.num_attention_heads
+    - train_transformer.dropout_rate
+    - train_transformer.EPOCHS
     deps:
-    - scr/models/encoder.py
-    - scr/models/decoder.py
+    - src/features/positional_encoding.py
     outs:
     - model_trained.pb ?
     metrics:

@@ -85,11 +85,11 @@ class Transformer(tf.keras.Model):
 
 
   ## Set hyperparameters. This will go into the params.yaml file for dvc pipeline. 
-num_layers = 4
-d_model = 128
-dff = 512
-num_attention_heads = 8
-dropout_rate = 0.1
+#num_layers = 4
+#d_model = 128
+#dff = 512
+#num_attention_heads = 8
+#dropout_rate = 0.1
 
 
 transformer = Transformer(
