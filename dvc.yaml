@@ -48,8 +48,7 @@ stages:
     - dropout_rate
     - EPOCHS
     deps:
-    - scr/models/encoder.py
-    - scr/models/decoder.py
+    - src/features/positional_encoder.py
     outs:
     - model_trained.pb ?
     metrics:
