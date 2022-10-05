@@ -2,7 +2,6 @@
 
 load:
   model_name: 'ted_hrlr_translate/pt_to_en'
-
 tokenizer_transformer:
   model_name_zip: 'ted_hrlr_translate_pt_en_converter.zip'
   model_name: 'ted_hrlr_translate/pt_to_en'
