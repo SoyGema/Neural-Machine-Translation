@@ -1,5 +1,6 @@
 
 from turtle import shape
+from unittest import result
 import tensorflow as tf
 from src.features.positional_encoding import positional_encoding
 from src.models.decoder import Decoder
@@ -12,14 +13,18 @@ from src.visualization.metrics import loss_function, accuracy_function
 from src.data.load_dataset import load_language_dataset 
 from src.features.tokenizer_transformer import load_dataset_tokenized
 from dvclive import Live
-from ruamel.yaml import YAML
+import yaml
 
 model_name = 'ted_hrlr_translate/pt_to_en'
 train_examples, val_examples = load_language_dataset(model_name)
 
-input_vocab_size= 8000
-target_vocab_size = 8000
+#input_vocab_size= 8000
+#target_vocab_size = 8000
 MAX_TOKENS=128
+
+with open('params.yaml') as config_file:
+    config = yaml.safe_load(config_file)
+
 
 ##Define transformer and try it out 
 
@@ -37,26 +42,26 @@ class Transformer(tf.keras.Model):
     super().__init__()
     # The encoder.
     self.encoder = Encoder(
-      num_layers=num_layers,
-      d_model=d_model,
-      num_attention_heads=num_attention_heads,
-      dff=dff,
-      input_vocab_size=input_vocab_size,
-      dropout_rate=dropout_rate
+      num_layers=config['train_transformer']['num_layers'],
+      d_model=config['train_transformer']['d_model'],
+      num_attention_heads=config['train_transformer']['num_attention_heads'],
+      dff=config['train_transformer']['dff'],
+      input_vocab_size=config['positional_encoding']['input_vocab_size'],
+      dropout_rate=config['train_transformer']['dropout_rate']
       )
 
     # The decoder.
     self.decoder = Decoder(
-      num_layers=num_layers,
-      d_model=d_model,
-      num_attention_heads=num_attention_heads,
-      dff=dff,
-      target_vocab_size=target_vocab_size,
-      dropout_rate=dropout_rate
+      num_layers=config['train_transformer']['num_layers'],
+      d_model=config['train_transformer']['d_model'],
+      num_attention_heads=config['train_transformer']['num_attention_heads'],
+      dff=config['train_transformer']['dff'],
+      target_vocab_size=config['positional_encoding']['target_vocab_size'],
+      dropout_rate=config['train_transformer']['dropout_rate']
       )
 
     # The final linear layer.
-    self.final_layer = tf.keras.layers.Dense(target_vocab_size)
+    self.final_layer = tf.keras.layers.Dense(config['positional_encoding']['target_vocab_size'])
 
   def call(self, inputs, training):
     # Keras models prefer if you pass all your inputs in the first argument.
@@ -81,21 +86,21 @@ class Transformer(tf.keras.Model):
 
 
   ## Set hyperparameters. This will go into the params.yaml file for dvc pipeline. 
-num_layers = 4
-d_model = 128
-dff = 512
-num_attention_heads = 8
-dropout_rate = 0.1
+#num_layers = 4
+#d_model = 128
+#dff = 512
+#num_attention_heads = 8
+#dropout_rate = 0.1
 
 
 transformer = Transformer(
-    num_layers=num_layers,
-    d_model=d_model,
-    num_attention_heads=num_attention_heads,
-    dff=dff,
-    input_vocab_size=8000,
-    target_vocab_size=8000,
-    dropout_rate=dropout_rate)
+    num_layers=config['train_transformer']['num_layers'],
+    d_model=config['train_transformer']['d_model'],
+    num_attention_heads=config['train_transformer']['num_attention_heads'],
+    dff=config['train_transformer']['dff'],
+    input_vocab_size=config['positional_encoding']['input_vocab_size'],
+    target_vocab_size=config['positional_encoding']['target_vocab_size'],
+    dropout_rate=config['train_transformer']['dropout_rate'])
 
 
   ## Test
@@ -128,13 +133,13 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
 
 
-learning_rate = CustomSchedule(d_model)
+learning_rate = CustomSchedule(config['train_transformer']['d_model'])
 
 optimizer = tf.keras.optimizers.Adam(learning_rate, beta_1=0.9, beta_2=0.98,
                                      epsilon=1e-9)
 
 
-temp_learning_rate_schedule = CustomSchedule(d_model)
+temp_learning_rate_schedule = CustomSchedule(config['train_transformer']['d_model'])
 
 #plt.plot(temp_learning_rate_schedule(tf.range(40000, dtype=tf.float32)))
 #plt.ylabel('Learning Rate')
@@ -198,6 +203,8 @@ EPOCHS = 1
 train_batches = make_batches(train_examples)
 val_batches = make_batches(val_examples)
 
+## Wait, are you putting positional embedding?
+
 ## INITIALIZE DVC LIVE
 live = Live()
 
@@ -211,7 +218,9 @@ for epoch in range(EPOCHS):
   for (batch, (inp, tar)) in enumerate(train_batches):
     train_step(inp, tar)
 
- ### ------Add metrics to dvc live . NOT TESTED--------- FROM DOCS IM ASSUMMING THAT WE HAVE TO DEFINE IT IN THE TRAINING STAGE -----
+ ### ------Add metrics to dvc live 
+    live.log("train/accuracy", float(train_accuracy.result()))
+    live.log("train/loss", float(train_loss.result()))
 
     #for acc, train_accuracy in metrics.items():
       #live.log(acc, train_accuracy)
@@ -219,9 +228,9 @@ for epoch in range(EPOCHS):
     #for loss, train_loss in metrics.items():
       #live.log(loss, train_loss)
 
-    #live.next_step()
+    live.next_step()
 
- ### ------NOT TESTED--------- 
+
 
     if batch % 50 == 0:
       print(f'Epoch {epoch + 1} Batch {batch} Loss {train_loss.result():.4f} Accuracy {train_accuracy.result():.4f}')
@@ -249,7 +258,7 @@ class Translator(tf.Module):
     self.tokenizers = tokenizers
     self.transformer = transformer
 
-  def __call__(self, sentence, max_length=MAX_TOKENS):
+  def __call__(self, sentence, max_length=config['tokenizer_transformer']['MAX_TOKENS']):
     # The input sentence is Portuguese, hence adding the `[START]` and `[END]` tokens.
     assert isinstance(sentence, tf.Tensor)
     if len(sentence.shape) == 0:
@@ -310,7 +319,7 @@ class ExportTranslator(tf.Module):
   def __call__(self, sentence):
     (result,
      tokens,
-     attention_weights) = self.translator(sentence, max_length=MAX_TOKENS)
+     attention_weights) = self.translator(sentence, max_length=config['train_transformer']['MAX_TOKENS'])
 
     return result
 

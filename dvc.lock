@@ -1,0 +1,25 @@
+schema: '2.0'
+stages:
+  positional_encoding:
+    cmd: python src/features/positional_encoding.py
+    deps:
+    - path: src/features/tokenizer_transformer.py
+      md5: 956f64d25460e3f08733fcf1a3bb54d2
+      size: 3193
+    params:
+      params.yaml:
+        positional_encoding.d_model: 512
+        positional_encoding.input_vocab_size: 7765
+        positional_encoding.target_vocab_size: 7010
+    outs:
+    - path: en_emb
+      md5: 6847d9896051891a8756a87774a3e0f0
+      size: 2862
+    - path: pt_emb
+      md5: 241c714fd767577fe528fd934b2f2cdf
+      size: 2952
+  load:
+    cmd: python src/data/load_dataset.py data/
+    params:
+      params.yaml:
+        load.model_name: ted_hrlr_translate/pt_to_en

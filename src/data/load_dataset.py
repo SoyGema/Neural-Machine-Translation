@@ -49,4 +49,23 @@ def load_dataset_test(path):
     for en in en_examples.numpy():
         print(en.decode('utf-8'))
 
-load_language_dataset('ted_hrlr_translate/az_to_en')
+def save_tensor(tensor, filename):
+  """Saves tensor to be a stage output"""
+  one_string = tf.strings.format("{}\n", (tensor))
+  tf.io.write_file(filename, one_string)
+  print('----TENSOR SAVED----')
+
+def save_tensor_batches(tensor, filename):
+  """Saves tensor to be a stage output"""
+  one_string = tf.strings.format("{}\n"*len(tensor), (tensor))
+  tf.io.write_file(filename, one_string)
+  print('----TENSOR SAVED----')  
+
+def load_tensor(tensor, filename):
+  """Reads a tensor for being loaded later"""
+  tf.io.read_file(str(filename), tensor)
+  print('----TENSOR LOADED----')
+
+
+
+load_language_dataset('ted_hrlr_translate/pt_to_en')

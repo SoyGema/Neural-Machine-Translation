@@ -1,11 +1,15 @@
 import numpy as np
 import tensorflow as tf
 from src.features.tokenizer_transformer import load_dataset_tokenized
-from src.data.load_dataset import load_language_dataset
+from src.data.load_dataset import load_language_dataset, save_tensor, load_tensor
 from src.features.tokenizer_transformer import make_batches
-
+import yaml
 
 model_name = 'ted_hrlr_translate/pt_to_en'
+
+with open('params.yaml') as config_file:
+    config = yaml.safe_load(config_file)
+
 
 def positional_encoding(length, depth):
   depth = depth/2
@@ -42,6 +46,9 @@ class PositionalEmbedding(tf.keras.layers.Layer):
     return x
 
 
+
+
+
 ### Error due to vocab size ?? https://github.com/tensorflow/models/pull/4974 -> ERROR FIXED VOCAB SIZE
 
 if __name__ == '__main__':
@@ -54,15 +61,17 @@ if __name__ == '__main__':
 
   for (pt, en), en_labels in train_batches.take(1):
     print('----TRAIN BATCH LANGUAGE 1----', pt.shape)
-    print('----TRAIN BATCH ENGLISH----', en.shape)
+    print('----TRAIN BATCH ENGLISH ----', en.shape)
 
   print(tokenizer.pt.get_vocab_size())
 
-  embed_pt = PositionalEmbedding(vocab_size=7765, d_model=512)
-  embed_en = PositionalEmbedding(vocab_size=7010, d_model=512)
+  embed_pt = PositionalEmbedding(vocab_size=config['positional_encoding']['input_vocab_size'], d_model=config['positional_encoding']['d_model'])
+  embed_en = PositionalEmbedding(vocab_size=config['positional_encoding']['target_vocab_size'], d_model=config['positional_encoding']['d_model'])
 
   ###See lan and en first instantiations
   pt_emb = embed_pt(pt)
   en_emb = embed_en(en)
   print(pt_emb)
   print(en_emb)
+  save_tensor(pt_emb, 'pt_emb')
+  save_tensor(en_emb, 'en_emb')
