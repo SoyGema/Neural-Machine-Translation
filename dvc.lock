@@ -1,0 +1,20 @@
+schema: '2.0'
+stages:
+  positional_encoding:
+    cmd: python src/features/positional_encoding.py
+    deps:
+    - path: src/features/tokenizer_transformer.py
+      md5: ce33960015a09cebe65e26d470ff1a25
+      size: 3135
+    params:
+      params.yaml:
+        positional_encoding.d_model: 512
+        positional_encoding.input_vocab_size: 7765
+        positional_encoding.target_vocab_size: 7010
+    outs:
+    - path: en_emb
+      md5: 2f62df32e9f18c55342472ddaeec391a
+      size: 2808
+    - path: pt_emb
+      md5: a6a5e2d7345d5358483158bf38a7958f
+      size: 2904

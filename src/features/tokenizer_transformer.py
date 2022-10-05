@@ -12,12 +12,12 @@ import tensorflow_text as text
 import tensorflow as tf
 from tensorflow_text.tools.wordpiece_vocab import bert_vocab_from_dataset as bert_vocab
 import yaml
-
+from src.data.load_dataset import load_language_dataset , save_tensor, load_tensor
 
 tf.get_logger().setLevel('ERROR')
 pwd = pathlib.Path.cwd()
 
-from src.data.load_dataset import load_language_dataset
+
 #------------------------------------------------------#
 ## Build Tokenizer
 
@@ -84,9 +84,13 @@ def make_batches(ds):
 #print(train_batches)
 
 if __name__ == '__main__':
+
     train_examples, val_examples = load_language_dataset(model_name)
     load_dataset_tokenized()
     train_batches = make_batches(train_examples)
     val_batches = make_batches(val_examples)
     print('----TRAINING BATCHES----' )
     print(train_batches)
+    print('-----LOAD BATCHES----')
+    save_tensor(train_batches, 'train_batches_saved')
+    save_tensor(val_batches, 'val_batches_saved')

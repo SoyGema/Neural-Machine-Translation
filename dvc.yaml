@@ -48,8 +48,8 @@ stages:
     deps: #Dependencies
     - src/data/load_dataset.py	
     outs:
-    - train_batches
-    - val_batches
+    - train_batches_saved
+    - val_batches_saved
 
   positional_encoding:
   # MAKE THE POSITIONAL EMBEDDINGS
@@ -61,8 +61,8 @@ stages:
     deps:
     - src/features/tokenizer_transformer.py
     outs:
-    - pt_emb
-    - en_emb
+    - src/data/pt_emb
+    - src/data/en_emb
 
   train_transformer:
   # INSTANTIATE ENCODER AND DECODER MODULES , THE TRANSFORMER ITSELF AND TRAINS IT
