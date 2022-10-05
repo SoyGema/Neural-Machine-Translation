@@ -55,6 +55,12 @@ def save_tensor(tensor, filename):
   tf.io.write_file(filename, one_string)
   print('----TENSOR SAVED----')
 
+def save_tensor_batches(tensor, filename):
+  """Saves tensor to be a stage output"""
+  one_string = tf.strings.format("{}\n"*len(tensor), (tensor))
+  tf.io.write_file(filename, one_string)
+  print('----TENSOR SAVED----')  
+
 def load_tensor(tensor, filename):
   """Reads a tensor for being loaded later"""
   tf.io.read_file(str(filename), tensor)

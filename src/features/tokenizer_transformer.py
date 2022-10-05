@@ -12,7 +12,7 @@ import tensorflow_text as text
 import tensorflow as tf
 from tensorflow_text.tools.wordpiece_vocab import bert_vocab_from_dataset as bert_vocab
 import yaml
-from src.data.load_dataset import load_language_dataset , save_tensor, load_tensor
+from src.data.load_dataset import load_language_dataset ,load_tensor, save_tensor_batches
 
 tf.get_logger().setLevel('ERROR')
 pwd = pathlib.Path.cwd()
@@ -92,5 +92,5 @@ if __name__ == '__main__':
     print('----TRAINING BATCHES----' )
     print(train_batches)
     print('-----LOAD BATCHES----')
-    save_tensor(train_batches, 'train_batches_saved')
-    save_tensor(val_batches, 'val_batches_saved')
+    save_tensor_batches(train_batches, 'train_batches_saved')
+    save_tensor_batches(val_batches, 'val_batches_saved')

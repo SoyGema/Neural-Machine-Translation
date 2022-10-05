@@ -1,5 +1,6 @@
 
 from turtle import shape
+from unittest import result
 import tensorflow as tf
 from src.features.positional_encoding import positional_encoding
 from src.models.decoder import Decoder
@@ -45,7 +46,7 @@ class Transformer(tf.keras.Model):
       d_model=config['train_transformer']['d_model'],
       num_attention_heads=config['train_transformer']['num_attention_heads'],
       dff=config['train_transformer']['dff'],
-      input_vocab_size=config['train_transformer']['input_vocab_size'],
+      input_vocab_size=config['positional_encoding']['input_vocab_size'],
       dropout_rate=config['train_transformer']['dropout_rate']
       )
 
@@ -55,7 +56,7 @@ class Transformer(tf.keras.Model):
       d_model=config['train_transformer']['d_model'],
       num_attention_heads=config['train_transformer']['num_attention_heads'],
       dff=config['train_transformer']['dff'],
-      target_vocab_size=config['train_transformer']['target_vocab_size'],
+      target_vocab_size=config['positional_encoding']['target_vocab_size'],
       dropout_rate=config['train_transformer']['dropout_rate']
       )
 
@@ -97,8 +98,8 @@ transformer = Transformer(
     d_model=config['train_transformer']['d_model'],
     num_attention_heads=config['train_transformer']['num_attention_heads'],
     dff=config['train_transformer']['dff'],
-    input_vocab_size=config['train_transformer']['input_vocab_size'],
-    target_vocab_size=config['train_transformer']['target_vocab_size'],
+    input_vocab_size=config['positional_encoding']['input_vocab_size'],
+    target_vocab_size=config['positional_encoding']['target_vocab_size'],
     dropout_rate=config['train_transformer']['dropout_rate'])
 
 
@@ -132,13 +133,13 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
 
 
-learning_rate = CustomSchedule(d_model)
+learning_rate = CustomSchedule(config['train_transformer']['d_model'])
 
 optimizer = tf.keras.optimizers.Adam(learning_rate, beta_1=0.9, beta_2=0.98,
                                      epsilon=1e-9)
 
 
-temp_learning_rate_schedule = CustomSchedule(d_model)
+temp_learning_rate_schedule = CustomSchedule(config['train_transformer']['d_model'])
 
 #plt.plot(temp_learning_rate_schedule(tf.range(40000, dtype=tf.float32)))
 #plt.ylabel('Learning Rate')
@@ -202,6 +203,8 @@ EPOCHS = 1
 train_batches = make_batches(train_examples)
 val_batches = make_batches(val_examples)
 
+## Wait, are you putting positional embedding?
+
 ## INITIALIZE DVC LIVE
 live = Live()
 
@@ -215,9 +218,9 @@ for epoch in range(EPOCHS):
   for (batch, (inp, tar)) in enumerate(train_batches):
     train_step(inp, tar)
 
- ### ------Add metrics to dvc live . NOT TESTED--------- FROM DOCS IM ASSUMMING THAT WE HAVE TO DEFINE IT IN THE TRAINING STAGE -----
-    live.log(train_accuracy)
-    live.log(train_loss)
+ ### ------Add metrics to dvc live 
+    live.log("train/accuracy", float(train_accuracy.result()))
+    live.log("train/loss", float(train_loss.result()))
 
     #for acc, train_accuracy in metrics.items():
       #live.log(acc, train_accuracy)
@@ -225,9 +228,9 @@ for epoch in range(EPOCHS):
     #for loss, train_loss in metrics.items():
       #live.log(loss, train_loss)
 
-    #live.next_step()
+    live.next_step()
 
- ### ------NOT TESTED--------- 
+
 
     if batch % 50 == 0:
       print(f'Epoch {epoch + 1} Batch {batch} Loss {train_loss.result():.4f} Accuracy {train_accuracy.result():.4f}')
