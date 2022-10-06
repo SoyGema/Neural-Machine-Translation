@@ -14,6 +14,8 @@ from src.data.load_dataset import load_language_dataset
 from src.features.tokenizer_transformer import load_dataset_tokenized
 from dvclive import Live
 import yaml
+from src.visualization.visualize import plot_attention_weights, plot_attention_head , print_translation
+
 
 model_name = 'ted_hrlr_translate/pt_to_en'
 train_examples, val_examples = load_language_dataset(model_name)
@@ -208,7 +210,7 @@ val_batches = make_batches(val_examples)
 ## INITIALIZE DVC LIVE
 live = Live()
 
-for epoch in range(EPOCHS):
+for epoch in range(config['train_transformers']['EPOCHS']):
   start = time.time()
 
   train_loss.reset_states()
@@ -335,6 +337,9 @@ ground_truth = 'this is a problem we have to solve .'
 
 translator = Translator(tokenizers, transformer)
 translator_exported = ExportTranslator(translator)
+
+### plot_attention_weights
+### plot_attention_heads
 
 
 #translated_text, translated_tokens, attention_weights = translator(

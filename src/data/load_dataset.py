@@ -1,12 +1,11 @@
 
 ## make a funcion that configurating a path allows us
 ## load different parts of a dataset 
-import logging
-import time
+
 
 import tensorflow_datasets as tfds
 import tensorflow as tf
-
+import pickle
 
 def load_language_dataset(path):
     """
@@ -55,16 +54,22 @@ def save_tensor(tensor, filename):
   tf.io.write_file(filename, one_string)
   print('----TENSOR SAVED----')
 
-def save_tensor_batches(tensor, filename):
-  """Saves tensor to be a stage output"""
-  one_string = tf.strings.format("{}\n"*len(tensor), (tensor))
-  tf.io.write_file(filename, one_string)
+def save_tensor_batches(tensor_ragged, filename):
+  """Saves ragged tensors to be a stage output"""
+  with open("a_file_name.pkl", "wb") as f:
+    pickle.dump(tensor_ragged, filename)
   print('----TENSOR SAVED----')  
 
 def load_tensor(tensor, filename):
   """Reads a tensor for being loaded later"""
   tf.io.read_file(str(filename), tensor)
   print('----TENSOR LOADED----')
+
+def load_tensor_batches(filename):
+  """Load ragged tensors as a dependency """
+  with open(filename, "rb") as f:
+    tensor_ragged = pickle.load(f)
+  return tensor_ragged
 
 
 
