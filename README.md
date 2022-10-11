@@ -53,6 +53,7 @@ The current tasks to do include
 - [ ] debugging Inference and saving model.
 - [ ] current issues with reproducibility challenges when executing from the table 
 - [ ] integration with DVC VsCode Extension with acc and loss plots. 
+- [ ] add attention heads plots 
 
 
 Project Organization

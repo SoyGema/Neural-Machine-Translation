@@ -20,9 +20,6 @@ import yaml
 model_name = 'ted_hrlr_translate/pt_to_en'
 train_examples, val_examples = load_language_dataset(model_name)
 
-#input_vocab_size= 8000
-#target_vocab_size = 8000
-MAX_TOKENS=128
 
 with open('params.yaml') as config_file:
     config = yaml.safe_load(config_file)
@@ -88,12 +85,6 @@ class Transformer(tf.keras.Model):
 
 
   ## Set hyperparameters. This will go into the params.yaml file for dvc pipeline. 
-#num_layers = 4
-#d_model = 128
-#dff = 512
-#num_attention_heads = 8
-#dropout_rate = 0.1
-
 
 transformer = Transformer(
     num_layers=config['train_transformer']['num_layers'],
