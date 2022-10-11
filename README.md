@@ -44,10 +44,15 @@ In ´src/visualization´ you can find the visualizations for VS Code extension
 * **metrics.py** define the loss_function and accuracy_function.
 * **visualize.py** define the attention heads that will be plotted in visual studio.
 
+*CURRENT STATE OF THE PROJECT*
+
+Project reproducible with one stage pipeline with ´dvc repro train transformer´
+
+
 The current tasks to do include
 - [ ] debugging Inference and saving model.
-- [ ] DVC pipeline. Currently creating ´dvc.yaml´ and params.yml file 
-- [ ] integration with DVC VsCode Extension. 
+- [ ] current issues with reproducibility challenges when executing from the table 
+- [ ] integration with DVC VsCode Extension with acc and loss plots. 
 
 
 Project Organization

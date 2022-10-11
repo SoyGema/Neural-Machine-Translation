@@ -74,8 +74,8 @@ stages:
     - train_transformer.EPOCHS
     deps:
     - src/features/positional_encoding.py
-    outs:
-    - model_trained.pb ?
+   # outs:
+   # - model_trained.pb ?
     metrics:
       - dvclive.json:
           cache: false
