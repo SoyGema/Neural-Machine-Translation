@@ -1,10 +1,10 @@
 
 load:
-  model_name: ted_hrlr_translate/pt_to_en
+  model_name: ted_hrlr_translate/ru_to_en
 tokenizer_transformer:
-  model_name_zip: ted_hrlr_translate_pt_en_converter.zip
-  model_name: ted_hrlr_translate/pt_to_en
-  folder_name: ted_hrlr_translate_pt_en_converter
+  model_name_zip: ted_hrlr_translate_ru_en_converter.zip
+  model_name: ted_hrlr_translate/ru_to_en
+  folder_name: ted_hrlr_translate_ru_en_converter
   BUFFER_SIZE: 20000
   BATCH_SIZE: 64
   MAX_TOKENS: 128

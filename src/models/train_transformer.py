@@ -185,7 +185,7 @@ def train_step(inputs, labels):
   train_accuracy(accuracy_function(tar_real, predictions))
 
 
-train_examples, val_examples = load_language_dataset(['load']['model_name'])
+train_examples, val_examples = load_language_dataset('ted_hrlr_translate/ru_to_en')
 train_batches = make_batches(train_examples)
 val_batches = make_batches(val_examples)
 
