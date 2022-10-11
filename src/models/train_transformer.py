@@ -16,11 +16,6 @@ from dvclive import Live
 import yaml
 #from src.visualization.visualize import plot_attention_weights, plot_attention_head , print_translation
 
-
-model_name = 'ted_hrlr_translate/pt_to_en'
-train_examples, val_examples = load_language_dataset(model_name)
-
-
 with open('params.yaml') as config_file:
     config = yaml.safe_load(config_file)
 
@@ -190,9 +185,7 @@ def train_step(inputs, labels):
   train_accuracy(accuracy_function(tar_real, predictions))
 
 
-EPOCHS = 1
-##!!!train_batches=
-
+train_examples, val_examples = load_language_dataset(['load']['model_name'])
 train_batches = make_batches(train_examples)
 val_batches = make_batches(val_examples)
 
@@ -215,18 +208,6 @@ for epoch in range(config['train_transformer']['EPOCHS']):
     live.log("train/accuracy", float(train_accuracy.result()))
     live.log("train/loss", float(train_loss.result()))
     
-    #live.log_plot(accuracy_function(inp, tar))
-    #live.log_plot(loss_function(inp, tar))
-    ### DVC Live metrics 
-    ## Test this with live.log_plots()
-
-
-    #for acc, train_accuracy in metrics.items():
-      #live.log(acc, train_accuracy)
-
-    #for loss, train_loss in metrics.items():
-      #live.log(loss, train_loss)
-
     live.next_step()
 
 
