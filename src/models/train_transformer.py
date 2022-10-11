@@ -14,7 +14,7 @@ from src.data.load_dataset import load_language_dataset
 from src.features.tokenizer_transformer import load_dataset_tokenized
 from dvclive import Live
 import yaml
-from src.visualization.visualize import plot_attention_weights, plot_attention_head , print_translation
+#from src.visualization.visualize import plot_attention_weights, plot_attention_head , print_translation
 
 
 model_name = 'ted_hrlr_translate/pt_to_en'
@@ -205,12 +205,12 @@ EPOCHS = 1
 train_batches = make_batches(train_examples)
 val_batches = make_batches(val_examples)
 
-## Wait, are you putting positional embedding?
+## Positional embedding is actually declared in transformer
 
 ## INITIALIZE DVC LIVE
 live = Live()
 
-for epoch in range(config['train_transformers']['EPOCHS']):
+for epoch in range(config['train_transformer']['EPOCHS']):
   start = time.time()
 
   train_loss.reset_states()
@@ -223,6 +223,12 @@ for epoch in range(config['train_transformers']['EPOCHS']):
  ### ------Add metrics to dvc live 
     live.log("train/accuracy", float(train_accuracy.result()))
     live.log("train/loss", float(train_loss.result()))
+    
+    #live.log_plot(accuracy_function(inp, tar))
+    #live.log_plot(loss_function(inp, tar))
+    ### DVC Live metrics 
+    ## Test this with live.log_plots()
+
 
     #for acc, train_accuracy in metrics.items():
       #live.log(acc, train_accuracy)
@@ -231,7 +237,6 @@ for epoch in range(config['train_transformers']['EPOCHS']):
       #live.log(loss, train_loss)
 
     live.next_step()
-
 
 
     if batch % 50 == 0:

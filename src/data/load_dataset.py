@@ -56,9 +56,10 @@ def save_tensor(tensor, filename):
 
 def save_tensor_batches(tensor_ragged, filename):
   """Saves ragged tensors to be a stage output"""
+  tensor_object = tensor_ragged
   with open("a_file_name.pkl", "wb") as f:
-    pickle.dump(tensor_ragged, filename)
-  print('----TENSOR SAVED----')  
+    pickle.dump(tensor_object, filename)
+  print('----TENSOR BATCHES SAVED----')  
 
 def load_tensor(tensor, filename):
   """Reads a tensor for being loaded later"""
@@ -69,6 +70,7 @@ def load_tensor_batches(filename):
   """Load ragged tensors as a dependency """
   with open(filename, "rb") as f:
     tensor_ragged = pickle.load(f)
+  print('----TENSOR BATCHES LOADED----')  
   return tensor_ragged
 
 
