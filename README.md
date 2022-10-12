@@ -22,7 +22,7 @@ Neural Machine Translation’s main goal is to transform a sequence from one lan
 Why Transformers for Neural Machine Translation?
 ------------
 
-Transformer has been widely adopted in Neural Machine Translation (NMT) because of its large capacity and parallel training of sequence generation. However, the deployment of Transformers is challenging because different scenarios require models of different complexities and scales.
+Transformers have been widely adopted in Neural Machine Translation (NMT) because of its large capacity and parallel training of sequence generation. However, the deployment of Transformers is challenging because different scenarios require models of different complexities and scales.
 
 Current state of the project
 ------------
@@ -47,7 +47,9 @@ In ´src/visualization´ you can find the visualizations for VS Code extension
 *CURRENT STATE OF THE PROJECT*
 
 Project reproducible with one stage pipeline with ´dvc repro train transformer´
-
+With ´dvc pull´ we will download the tokenized datasets.
+The tokenized datasets should be located in the keras cache folder , as if not recognized in that
+path 
 
 The current tasks to do include
 - [ ] debugging Inference and saving model.
