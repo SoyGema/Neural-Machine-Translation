@@ -44,12 +44,13 @@ In ´src/visualization´ you can find the visualizations for VS Code extension
 * **metrics.py** define the loss_function and accuracy_function.
 * **visualize.py** define the attention heads that will be plotted in visual studio.
 
-*CURRENT STATE OF THE PROJECT*
+Reproduce the project
+------------
 
 Project reproducible with one stage pipeline with ´dvc repro train transformer´
 With ´dvc pull´ we will download the tokenized datasets.
 The tokenized datasets should be located in the keras cache folder , as if not recognized in that
-path 
+path it won´t be possible to load.
 
 The current tasks to do include
 - [ ] debugging Inference and saving model.
