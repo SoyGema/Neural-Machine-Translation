@@ -1,10 +1,4 @@
-
-from turtle import shape
-from unittest import result
 import tensorflow as tf
-from src.features.positional_encoding import positional_encoding
-from src.models.decoder import Decoder
-from src.models.encoder import Encoder
 import time
 from src.models.transformer import Transformer , CustomSchedule , checkpoints
 from src.features.tokenizer_transformer import make_batches
@@ -14,7 +8,7 @@ from src.data.load_dataset import load_language_dataset
 from src.features.tokenizer_transformer import load_dataset_tokenized
 from dvclive import Live
 import yaml
-#from src.visualization.visualize import plot_attention_weights, plot_attention_head , print_translation
+
 
 with open('params.yaml') as config_file:
     config = yaml.safe_load(config_file)
@@ -90,7 +84,7 @@ def train_step(inputs, labels):
   train_accuracy(accuracy_function(tar_real, predictions))
 
 
-train_examples, val_examples = load_language_dataset('ted_hrlr_translate/ru_to_en')
+train_examples, val_examples = load_language_dataset(config['load']['model_name'])
 train_batches = make_batches(train_examples)
 val_batches = make_batches(val_examples)
 

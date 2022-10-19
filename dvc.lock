@@ -35,13 +35,13 @@ stages:
         train_transformer.d_model: 128
         train_transformer.dff: 512
         train_transformer.dropout_rate: 0.1
-        train_transformer.num_attention_heads: 6
+        train_transformer.num_attention_heads: 8
         train_transformer.num_layers: 4
     outs:
     - path: dvclive.json
-      md5: 1edcba6bc628eb598a83b67fbb547e1d
+      md5: ebdee26e80f6eac723d91a4a95ceed83
       size: 119
     - path: dvclive/scalars
-      md5: 1ac83fed3c9c7992e1d9764bc5db93f5.dir
-      size: 124613
+      md5: 128f6a40de187339ded7f3793aefbf1d.dir
+      size: 509165
       nfiles: 2

@@ -20,4 +20,4 @@ train_transformer:
   dff: 512
   num_attention_heads: 8
   dropout_rate: 0.1
-  EPOCHS: 2
+  EPOCHS: 1
