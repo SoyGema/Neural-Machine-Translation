@@ -9,6 +9,8 @@ from src.features.tokenizer_transformer import load_dataset_tokenized
 from dvclive import Live
 import yaml
 
+# One Stage pipeline. This script will be executed with 'dvc exp run' or 'dvc repro'
+
 
 with open('params.yaml') as config_file:
     config = yaml.safe_load(config_file)
