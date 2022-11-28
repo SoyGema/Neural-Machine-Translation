@@ -4,7 +4,7 @@ Neural Machine Translation
 The Challenge
 ------------
 
-Trains a model that transforms a language **text from one language into another**, taking into account **LLM fundamentals:** Transformers architecture and feature engineering coming from Natural Language Processing.
+Trains a model that transforms a language **text from one language into another**, taking into account **LLM fundamentals:** Transformers architecture and feature engineering coming from Natural Language Processing. Currently its configuration works for 9 different languages translation into english.
 
 **Why is this suitable/interesting for DVC ? and VSCode DVC extension?**
 
