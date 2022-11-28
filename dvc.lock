@@ -22,7 +22,7 @@ stages:
     cmd: python src/data/load_dataset.py data/
     params:
       params.yaml:
-        load.model_name: ted_hrlr_translate/pt_to_en
+        load.model_name: ted_hrlr_translate/ru_to_en
   train_transformer:
     cmd: python src/models/train_transformer.py
     deps:
