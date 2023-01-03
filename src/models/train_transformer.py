@@ -5,16 +5,16 @@ src_path = Path(__file__).parent.parent.resolve()
 sys.path.append(str(src_path))
 
 import tensorflow as tf
-from src.features.positional_encoding import positional_encoding
-from src.models.decoder import Decoder
-from src.models.encoder import Encoder
+from features.positional_encoding import positional_encoding
+from models.decoder import Decoder
+from models.encoder import Encoder
 import time
 ##from src.features import tokenizers --> I think this is the model ?
-from src.features.tokenizer_transformer import make_batches
+from features.tokenizer_transformer import make_batches
 
-from src.visualization.metrics import loss_function, accuracy_function
-from src.data.load_dataset import load_language_dataset 
-from src.features.tokenizer_transformer import load_dataset_tokenized
+from visualization.metrics import loss_function, accuracy_function
+from data.load_dataset import load_language_dataset 
+from features.tokenizer_transformer import load_dataset_tokenized
 from dvclive import Live
 import yaml
 

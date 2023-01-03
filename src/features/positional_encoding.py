@@ -7,9 +7,9 @@ sys.path.append(str(src_path))
 
 import numpy as np
 import tensorflow as tf
-from src.features.tokenizer_transformer import load_dataset_tokenized
-from src.data.load_dataset import load_language_dataset
-from src.features.tokenizer_transformer import make_batches
+from features.tokenizer_transformer import load_dataset_tokenized
+from data.load_dataset import load_language_dataset
+from features.tokenizer_transformer import make_batches
 import yaml
 
 model_name = 'ted_hrlr_translate/pt_to_en'
