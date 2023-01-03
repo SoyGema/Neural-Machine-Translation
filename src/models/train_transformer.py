@@ -221,8 +221,6 @@ for epoch in range(EPOCHS):
  ### ------Add metrics to dvc live . NOT TESTED--------- FROM DOCS IM ASSUMMING THAT WE HAVE TO DEFINE IT IN THE TRAINING STAGE -----
     live.log_metric("accuracy_train", float(train_accuracy.result()))
     live.log_metric("loss_train", float(train_loss.result()))
-    train_accuracy.reset_states()
-    train_loss.reset_states()
 
     live.next_step()
 
