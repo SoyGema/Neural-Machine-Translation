@@ -1,9 +1,12 @@
+
+
 load:
-  model_name: ted_hrlr_translate/ru_to_en
+  dataset_name: ''
+
 tokenizer_transformer:
-  model_name_zip: ted_hrlr_translate_ru_en_converter.zip
-  model_name: ted_hrlr_translate/ru_to_en
-  folder_name: ted_hrlr_translate_ru_en_converter
+  model_name_zip: 'ted_hrlr_translate_pt_en_converter.zip'
+  model_name: 'ted_hrlr_translate/pt_to_en'
+  folder_name: 'ted_hrlr_translate_pt_en_converter'
   BUFFER_SIZE: 20000
   BATCH_SIZE: 64
   MAX_TOKENS: 128
@@ -18,5 +21,5 @@ train_transformer:
   d_model: 128
   dff: 512
   num_attention_heads: 8
-  dropout_rate: 0.1
-  EPOCHS: 1
+  dropout_rate: 0.1 
+  EPOCHS: 2 

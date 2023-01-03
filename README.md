@@ -4,7 +4,7 @@ Neural Machine Translation
 The Challenge
 ------------
 
-Trains a model that transforms a language **text from one language into another**, taking into account **LLM fundamentals:** Transformers architecture and feature engineering coming from Natural Language Processing. Currently its configuration works for 9 different languages translation into english.
+Trains a model that transforms a language **text from one language into another**, taking into account **LLM fundamentals:** Transformers architecture and feature engineering coming from Natural Language Processing.
 
 **Why is this suitable/interesting for DVC ? and VSCode DVC extension?**
 
@@ -22,7 +22,7 @@ Neural Machine Translation’s main goal is to transform a sequence from one lan
 Why Transformers for Neural Machine Translation?
 ------------
 
-Transformers have been widely adopted in Neural Machine Translation (NMT) because of its large capacity and parallel training of sequence generation. However, the deployment of Transformers is challenging because different scenarios require models of different complexities and scales.
+Transformer has been widely adopted in Neural Machine Translation (NMT) because of its large capacity and parallel training of sequence generation. However, the deployment of Transformers is challenging because different scenarios require models of different complexities and scales.
 
 Current state of the project
 ------------
@@ -44,19 +44,10 @@ In ´src/visualization´ you can find the visualizations for VS Code extension
 * **metrics.py** define the loss_function and accuracy_function.
 * **visualize.py** define the attention heads that will be plotted in visual studio.
 
-Reproduce the project
-------------
-
-Project reproducible with one stage pipeline with ´dvc repro train transformer´
-With ´dvc pull´ we will download the tokenized datasets.
-The tokenized datasets should be located in the keras cache folder , as if not recognized in that
-path it won´t be possible to load.
-
 The current tasks to do include
 - [ ] debugging Inference and saving model.
-- [ ] current issues with reproducibility challenges when executing from the table 
-- [ ] integration with DVC VsCode Extension with acc and loss plots. 
-- [ ] add attention heads plots 
+- [ ] DVC pipeline. Currently creating ´dvc.yaml´ and params.yml file 
+- [ ] integration with DVC VsCode Extension. 
 
 
 Project Organization

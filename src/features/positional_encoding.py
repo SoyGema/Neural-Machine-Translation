@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 from src.features.tokenizer_transformer import load_dataset_tokenized
-from src.data.load_dataset import load_language_dataset, save_tensor, load_tensor
+from src.data.load_dataset import load_language_dataset
 from src.features.tokenizer_transformer import make_batches
 import yaml
 
@@ -46,9 +46,6 @@ class PositionalEmbedding(tf.keras.layers.Layer):
     return x
 
 
-
-
-
 ### Error due to vocab size ?? https://github.com/tensorflow/models/pull/4974 -> ERROR FIXED VOCAB SIZE
 
 if __name__ == '__main__':
@@ -73,5 +70,3 @@ if __name__ == '__main__':
   en_emb = embed_en(en)
   print(pt_emb)
   print(en_emb)
-  save_tensor(pt_emb, 'pt_emb')
-  save_tensor(en_emb, 'en_emb')

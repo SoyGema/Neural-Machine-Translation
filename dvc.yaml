@@ -34,6 +34,8 @@ stages:
     cmd: python src/data/load_dataset.py data/ #The command that is going to be executed
     params: # from params.yml
     - load.model_name
+    outs:
+    - dataset
 
   tokenizer_transformer:
   # PREPARES TOKEN BATCHES .ALSO LOADS TOKENIZED DATASET. OUTPUT the train batches and val batches
@@ -46,8 +48,8 @@ stages:
     deps: #Dependencies
     - src/data/load_dataset.py	
     outs:
-    - train_batches_saved
-    - val_batches_saved
+    - train_batches
+    - val_batches
 
   positional_encoding:
   # MAKE THE POSITIONAL EMBEDDINGS
@@ -74,11 +76,11 @@ stages:
     - train_transformer.EPOCHS
     deps:
     - src/features/positional_encoding.py
-   # outs:
-   # - model_trained.pb ?
+    outs:
+    - model_trained.pb ?
     metrics:
-      - dvclive.json:
+      - training_metrics.json:
           cache: false
     plots:
-      - dvclive/scalars:
+      - training_metrics/scalars:
           cache: false

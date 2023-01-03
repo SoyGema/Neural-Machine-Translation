@@ -1,25 +1,6 @@
-
-import yaml
-import tensorflow as tf
-from src.features.tokenizer_transformer import load_dataset_tokenized
-from src.models.train_transformer import Transformer
+import tensorflow as tf 
 
 
-with open('params.yaml') as config_file:
-    config = yaml.safe_load(config_file)
-
-
-tokenizers = load_dataset_tokenized()
-
-
-transformer = Transformer(
-    num_layers=config['train_transformer']['num_layers'],
-    d_model=config['train_transformer']['d_model'],
-    num_attention_heads=config['train_transformer']['num_attention_heads'],
-    dff=config['train_transformer']['dff'],
-    input_vocab_size=config['positional_encoding']['input_vocab_size'],
-    target_vocab_size=config['positional_encoding']['target_vocab_size'],
-    dropout_rate=config['train_transformer']['dropout_rate'])
 
 
 class Translator(tf.Module):
@@ -27,7 +8,7 @@ class Translator(tf.Module):
     self.tokenizers = tokenizers
     self.transformer = transformer
 
-  def __call__(self, sentence, max_length=config['train_transformer']['MAX_TOKENS']):
+  def __call__(self, sentence, max_length=MAX_TOKENS):
     # The input sentence is Portuguese, hence adding the `[START]` and `[END]` tokens.
     assert isinstance(sentence, tf.Tensor)
     if len(sentence.shape) == 0:
