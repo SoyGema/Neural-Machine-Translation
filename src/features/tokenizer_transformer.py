@@ -17,6 +17,12 @@ import yaml
 tf.get_logger().setLevel('ERROR')
 pwd = pathlib.Path.cwd()
 
+import sys
+from pathlib import Path
+
+src_path = Path(__file__).parent.parent.resolve()
+sys.path.append(str(src_path))
+
 from src.data.load_dataset import load_language_dataset
 #------------------------------------------------------#
 ## Build Tokenizer

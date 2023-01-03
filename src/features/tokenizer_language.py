@@ -15,6 +15,12 @@ import tensorflow_text as text
 import tensorflow as tf
 from tensorflow_text.tools.wordpiece_vocab import bert_vocab_from_dataset as bert_vocab
 
+import sys
+from pathlib import Path
+
+src_path = Path(__file__).parent.parent.resolve()
+sys.path.append(str(src_path))
+
 from src.data.load_dataset import load_language_dataset
 
 tf.get_logger().setLevel('ERROR')

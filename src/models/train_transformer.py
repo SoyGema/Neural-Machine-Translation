@@ -1,5 +1,9 @@
+import sys
+from pathlib import Path
 
-from turtle import shape
+src_path = Path(__file__).parent.parent.resolve()
+sys.path.append(str(src_path))
+
 import tensorflow as tf
 from src.features.positional_encoding import positional_encoding
 from src.models.decoder import Decoder

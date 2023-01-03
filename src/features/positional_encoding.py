@@ -1,3 +1,10 @@
+import sys
+from pathlib import Path
+
+src_path = Path(__file__).parent.parent.resolve()
+sys.path.append(str(src_path))
+
+
 import numpy as np
 import tensorflow as tf
 from src.features.tokenizer_transformer import load_dataset_tokenized
