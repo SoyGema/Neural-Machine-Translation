@@ -1,7 +1,7 @@
 
 import tensorflow as tf
-from src.features.positional_encoding import positional_encoding
-from src.features.positional_encoding import PositionalEmbedding
+from features.positional_encoding import positional_encoding
+from features.positional_encoding import PositionalEmbedding
 
 def point_wise_feed_forward_network(
   d_model, # Input/output dimensionality.

@@ -201,7 +201,6 @@ def train_step(inputs, labels):
 
 
 EPOCHS = 1
-##!!!train_batches=
 
 train_batches = make_batches(train_examples)
 val_batches = make_batches(val_examples)
@@ -220,8 +219,8 @@ for epoch in range(EPOCHS):
     train_step(inp, tar)
 
  ### ------Add metrics to dvc live . NOT TESTED--------- FROM DOCS IM ASSUMMING THAT WE HAVE TO DEFINE IT IN THE TRAINING STAGE -----
-    live.log("accuracy_train", float(train_accuracy.result()))
-    live.log("loss_train", float(train_loss.result()))
+    live.log_metric("accuracy_train", float(train_accuracy.result()))
+    live.log_metric("loss_train", float(train_loss.result()))
 
     #for acc, train_accuracy in metrics.items():
       #live.log(acc, train_accuracy)

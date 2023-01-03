@@ -1,9 +1,9 @@
 
 import tensorflow as tf
-from src.features.positional_encoding import positional_encoding
-from src.models.encoder import point_wise_feed_forward_network
-from src.features.positional_encoding import PositionalEmbedding
-from src.models.encoder import EncoderLayer
+from features.positional_encoding import positional_encoding
+from models.encoder import point_wise_feed_forward_network
+from features.positional_encoding import PositionalEmbedding
+from models.encoder import EncoderLayer
 
 #define the DECODER layer
 MAX_TOKENS = 128
