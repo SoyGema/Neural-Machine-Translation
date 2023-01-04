@@ -79,8 +79,8 @@ stages:
     outs:
     - model_trained.pb ?
     metrics:
-      - dvclive/training_metrics.json:
+      - dvclive/metrics.json:
           cache: false
     plots:
-      - dvclive/training_metrics/scalars:
+      - dvclive/plots:
           cache: false
