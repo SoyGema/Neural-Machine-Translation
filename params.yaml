@@ -1,5 +1,3 @@
-
-
 load:
   dataset_name: ''
 
@@ -17,9 +15,11 @@ positional_encoding:
   d_model: 512
 
 train_transformer:
-  num_layers: 4
+  num_layers_encoder: 4
+  num_layers_decoder: 6
   d_model: 128
   dff: 512
-  num_attention_heads: 8
+  num_attention_heads_encoder: 6
+  num_attention_heads_decoder: 8
   dropout_rate: 0.1 
   EPOCHS: 2 

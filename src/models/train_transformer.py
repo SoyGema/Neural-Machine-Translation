@@ -45,9 +45,9 @@ class Transformer(tf.keras.Model):
     super().__init__()
     # The encoder.
     self.encoder = Encoder(
-      num_layers=config['train_transformer']['num_layers'],
+      num_layers=config['train_transformer']['num_layers_encoder'],
       d_model=config['train_transformer']['d_model'],
-      num_attention_heads=config['train_transformer']['num_attention_heads'],
+      num_attention_heads=config['train_transformer']['num_attention_heads_encoder'],
       dff=config['train_transformer']['dff'],
       input_vocab_size=config['positional_encoding']['input_vocab_size'],
       dropout_rate=config['train_transformer']['dropout_rate']
@@ -55,9 +55,9 @@ class Transformer(tf.keras.Model):
 
     # The decoder.
     self.decoder = Decoder(
-      num_layers=config['train_transformer']['num_layers'],
+      num_layers=config['train_transformer']['num_layers_decoder'],
       d_model=config['train_transformer']['d_model'],
-      num_attention_heads=config['train_transformer']['num_attention_heads'],
+      num_attention_heads=config['train_transformer']['num_attention_heads_decoder'],
       dff=config['train_transformer']['dff'],
       target_vocab_size=config['positional_encoding']['target_vocab_size'],
       dropout_rate=config['train_transformer']['dropout_rate']
@@ -97,9 +97,9 @@ class Transformer(tf.keras.Model):
 
 
 transformer = Transformer(
-    num_layers=config['train_transformer']['num_layers'],
+    num_layers=config['train_transformer']['num_layers_decoder'],
     d_model=config['train_transformer']['d_model'],
-    num_attention_heads=config['train_transformer']['num_attention_heads'],
+    num_attention_heads=config['train_transformer']['num_attention_heads_decoder'],
     dff=config['train_transformer']['dff'],
     input_vocab_size=config['positional_encoding']['input_vocab_size'],
     target_vocab_size=config['positional_encoding']['target_vocab_size'],

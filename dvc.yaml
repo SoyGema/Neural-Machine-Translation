@@ -68,10 +68,12 @@ stages:
   # INSTANTIATE ENCODER AND DECODER MODULES , THE TRANSFORMER ITSELF AND TRAINS IT
     cmd: python src/models/train_transformer.py
     params:
-    - train_transformer.num_layers
+    - train_transformer.num_layers_encoder
+    - train_transformer.num_layers_decoder
     - train_transformer.d_model
     - train_transformer.dff
-    - train_transformer.num_attention_heads
+    - train_transformer.num_attention_heads_encoder
+    - train_transformer.num_attention_heads_decoder
     - train_transformer.dropout_rate
     - train_transformer.EPOCHS
     deps:
