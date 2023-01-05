@@ -1,5 +1,5 @@
 load:
-  dataset_name: ''
+  dataset_name: 'mydata1'
 
 tokenizer_transformer:
   model_name_zip: 'ted_hrlr_translate_pt_en_converter.zip'

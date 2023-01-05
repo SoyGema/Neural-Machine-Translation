@@ -1,6 +1,6 @@
 import yaml
-from src.models.decoder import Decoder
-from src.models.encoder import Encoder
+from models.decoder import Decoder
+from models.encoder import Encoder
 import tensorflow as tf
 
 
