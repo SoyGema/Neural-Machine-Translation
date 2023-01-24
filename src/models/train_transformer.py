@@ -22,8 +22,6 @@ import yaml
 model_name = 'ted_hrlr_translate/pt_to_en'
 train_examples, val_examples = load_language_dataset(model_name)
 
-#input_vocab_size= 8000
-#target_vocab_size = 8000
 MAX_TOKENS=128
 
 with open('params.yaml') as config_file:
@@ -172,6 +170,10 @@ for epoch in range(EPOCHS):
   print(f'Time taken for 1 epoch: {time.time() - start:.2f} secs\n')
   print(f'Training finished')
 
+### SAVE MODEL 
+
+
+
 tokenizers = load_dataset_tokenized()
 
 ##### EXPORT MODEL
@@ -209,22 +211,25 @@ class Translator(tf.Module):
       predictions, _ = self.transformer([encoder_input, output], training=False)
 
       # Select the last token from the `seq_len` dimension.
+      print('predictions shape' + predictions.shape)
       predictions = predictions[:, -1:, :]  # Shape `(batch_size, 1, vocab_size)`.
 
       predicted_id = tf.argmax(predictions, axis=-1)
-
+      print('predicted id' + predicted_id.shape)
       # Concatenate the `predicted_id` to the output which is given to the
       # decoder as its input.
       output_array = output_array.write(i+1, predicted_id[0])
-
+      print('output array' + output_array.shape)
       if predicted_id == end:
         break
 
     output = tf.transpose(output_array.stack())
     # The output shape is `(1, tokens)`.
+    print('output' + output.shape)
     text = tokenizers.en.detokenize(output)[0]  # Shape: `()`.
-
+    print('text' + text.shape)
     tokens = tokenizers.en.lookup(output)[0]
+    print('tokens' + tokens.shape)
 
     # `tf.function` prevents us from using the attention_weights that were
     # calculated on the last iteration of the loop.
@@ -258,10 +263,12 @@ def print_translation(sentence, tokens, ground_truth):
 sentence = 'este é um problema que temos que resolver.'
 ground_truth = 'this is a problem we have to solve .'
 
+print("instantiatin translation")
 translator = Translator(tokenizers, transformer)
 translator_exported = ExportTranslator(translator)
 
+print("translating text")
 
-#translated_text, translated_tokens, attention_weights = translator(
-    #tf.constant(sentence))
-#print_translation(sentence, translated_text, ground_truth)
+translated_text, translated_tokens, attention_weights = translator(
+    tf.constant(sentence))
+print_translation(sentence, translated_text, ground_truth)
