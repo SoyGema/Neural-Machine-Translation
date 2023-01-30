@@ -44,11 +44,34 @@ In ´src/visualization´ you can find the visualizations for VS Code extension
 * **metrics.py** define the loss_function and accuracy_function.
 * **visualize.py** define the attention heads that will be plotted in visual studio.
 
-The current tasks to do include
-- [ ] debugging Inference and saving model.
-- [ ] DVC pipeline. Currently creating ´dvc.yaml´ and params.yml file 
-- [ ] integration with DVC VsCode Extension. 
+**Instructions for reproducing the project**
+Instructions setup for MAC M1
 
+
+1 . Open a terminal and clone the repository
+
+```
+$git clone https://github.com/SoyGema/Neural-Machine-Translation
+```
+
+2 . Activate virtual environment 
+
+```
+source .venv/bin/activate
+```
+
+3. Download TF 2.9 wheel from
+   [here](https://github.com/sun1638650145/Libraries-and-Extensions-for-TensorFlow-for-Apple-Silicon/releases)
+
+4. Install requirements.txt
+
+```
+pip3 install -r requirements.txt
+```
+5. Download data from data registry . This step should place the data in the
+   right folder.
+
+6. run dvc exp run train_transformer
 
 Project Organization
 ------------
@@ -106,6 +129,13 @@ Project Organization
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+
+
+
+
+
+
+
 
 
 
