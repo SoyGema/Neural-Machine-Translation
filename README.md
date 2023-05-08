@@ -73,6 +73,25 @@ pip3 install -r requirements.txt
 
 6. run dvc exp run train_transformer
 
+Notes for MAC devices and Tensorflow
+------------
+
+Current testing under TF2.10 scenario. For running in MAC
+
+```
+conda install -c apple tensorflow-deps --force-reinstall
+conda install numpy --force-reinstall
+
+conda install -c apple tensorflow-deps=2.10.0
+python -m pip install tensorflow-macos==2.10.0
+
+```
+Then install from [wheel](https://github.com/sun1638650145/Libraries-and-Extensions-for-TensorFlow-for-Apple-Silicon/releases/tag/v2.10)
+
+
+
+
+
 Project Organization
 ------------
 
