@@ -1,6 +1,12 @@
 Neural Machine Translation
 ==============================
 
+Hello! 
+------------
+
+This repo has the code that is accompanying code for The Lord of The Words Talks given in various events. It trackles the Transformers architecture from the translation perspective
+![Gandalf](https://github.com/SoyGema/Neural-Machine-Translation/assets/24204714/c066e9dd-e33e-4049-aa66-296c0d23f20e)
+
 The Challenge
 ------------
 
