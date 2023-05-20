@@ -20,25 +20,25 @@ stages:
     cmd: python src/models/train_transformer.py
     deps:
     - path: src/features/positional_encoding.py
-      md5: 295990473236f88ceec9cdaa5ffd70b9
-      size: 2522
+      md5: 0a36209ff76713dc246efd56bac7b8ae
+      size: 2417
     params:
       params.yaml:
-        train_transformer.EPOCHS: 2
+        train_transformer.EPOCHS: 1
         train_transformer.d_model: 128
         train_transformer.dff: 512
-        train_transformer.dropout_rate: 0.1
-        train_transformer.num_attention_heads_decoder: 8
+        train_transformer.dropout_rate: 0.2
+        train_transformer.num_attention_heads_decoder: 6
         train_transformer.num_attention_heads_encoder: 6
-        train_transformer.num_layers_decoder: 6
+        train_transformer.num_layers_decoder: 4
         train_transformer.num_layers_encoder: 4
     outs:
     - path: dvclive/metrics.json
-      md5: a57e6c999c9e6d5c8a84cea5c1a0d58f
-      size: 99
+      md5: d60003736e340198b0644ff8eb063c7f
+      size: 98
     - path: dvclive/plots
-      md5: f26544e6448bd41419090cff6a5ab044.dir
-      size: 36135
+      md5: 2bc1e16fe25ea73a4bbf3b1a09882d5e.dir
+      size: 4026
       nfiles: 2
   tokenizer_transformer:
     cmd: python src/features/tokenizer_transformer.py
@@ -48,7 +48,7 @@ stages:
       size: 1490
     params:
       params.yaml:
-        tokenizer_transformer.BATCH_SIZE: 64
+        tokenizer_transformer.BATCH_SIZE: 128
         tokenizer_transformer.BUFFER_SIZE: 20000
         tokenizer_transformer.MAX_TOKENS: 128
         tokenizer_transformer.model_name_zip: ted_hrlr_translate_pt_en_converter.zip

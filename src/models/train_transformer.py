@@ -269,6 +269,6 @@ translator_exported = ExportTranslator(translator)
 
 print("translating text")
 
-translated_text, translated_tokens, attention_weights = translator(
-    tf.constant(sentence))
-print_translation(sentence, translated_text, ground_truth)
+#translated_text, translated_tokens, attention_weights = translator(
+    #tf.constant(sentence))
+#print_translation(sentence, translated_text, ground_truth)
