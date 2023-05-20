@@ -36,7 +36,7 @@ stages:
     - load.model_name
 
   tokenizer_transformer:
-  # PREPARES TOKEN BATCHES .ALSO LOADS TOKENIZED DATASET. OUTPUT the train batches and val batches
+  # PREPARES TOKEN BATCHES . LOADS TOKENIZED DATASET. OUTPUT the train batches and val batches
     cmd: python src/features/tokenizer_transformer.py
     params:
     - tokenizer_transformer.model_name_zip

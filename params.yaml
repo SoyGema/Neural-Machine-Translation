@@ -7,7 +7,7 @@ tokenizer_transformer:
   model_name: ted_hrlr_translate/pt_to_en
   folder_name: ted_hrlr_translate_pt_en_converter
   BUFFER_SIZE: 20000
-  BATCH_SIZE: 64
+  BATCH_SIZE: 256
   MAX_TOKENS: 128
 
 positional_encoding:
@@ -17,10 +17,10 @@ positional_encoding:
 
 train_transformer:
   num_layers_encoder: 4
-  num_layers_decoder: 6
+  num_layers_decoder: 4
   d_model: 128
   dff: 512
-  num_attention_heads_encoder: 6
-  num_attention_heads_decoder: 8
+  num_attention_heads_encoder: 4
+  num_attention_heads_decoder: 4
   dropout_rate: 0.2
   EPOCHS: 1

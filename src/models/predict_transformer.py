@@ -1,14 +1,15 @@
 import tensorflow as tf 
+import yaml
 
-
-
+with open('params.yaml') as config_file:
+    config = yaml.safe_load(config_file)
 
 class Translator(tf.Module):
   def __init__(self, tokenizers, transformer):
     self.tokenizers = tokenizers
     self.transformer = transformer
 
-  def __call__(self, sentence, max_length=MAX_TOKENS):
+  def __call__(self, sentence, max_length=config['tokenizer_transformer']['MAX_TOKENS']):
     # The input sentence is Portuguese, hence adding the `[START]` and `[END]` tokens.
     assert isinstance(sentence, tf.Tensor)
     if len(sentence.shape) == 0:

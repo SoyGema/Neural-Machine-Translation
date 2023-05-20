@@ -53,8 +53,6 @@ class PositionalEmbedding(tf.keras.layers.Layer):
     return x
 
 
-### Error due to vocab size ?? https://github.com/tensorflow/models/pull/4974 -> ERROR FIXED VOCAB SIZE
-
 if __name__ == '__main__':
   tokenizer = load_dataset_tokenized()
 
